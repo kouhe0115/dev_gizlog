@@ -8,7 +8,7 @@
       <input class="form-control" name="search-month" type="month">
       <button type="submit" class="btn btn-icon"><i class="fa fa-search"></i></button>
     </form>
-    <a class="btn btn-icon" href=""><i class="fa fa-plus"></i></a>
+    <a class="btn btn-icon" href="{{ route('report.create') }}"><i class="fa fa-plus"></i></a>
   </div>
   <div class="content-wrapper table-responsive">
     <table class="table table-striped">
@@ -21,16 +21,19 @@
         </tr>
       </thead>
       <tbody>
+        @foreach ($reports as $report)
           <tr class="row">
-            <td class="col-xs-2"></td>
-            <td class="col-xs-3"></td>
-            <td class="col-xs-5"></td>
+            <th class="col-xs-2">{{ $report->reporting_time->format('m/d (D)') }}</th>
+            <th class="col-xs-3">{{ $report->title }}</th>
+            <th class="col-xs-5">{{ $report->content }}</th>
             <td class="col-xs-2"><a class="btn" href=""><i class="fa fa-book"></i></a></td>
           </tr>
+        @endforeach
       </tbody>
     </table>
   </div>
 </div>
 
 @endsection
+
 
