@@ -20,18 +20,17 @@ class DailyReportController extends Controller
 
     public function index(Request $request)
     {
+        $userId = Auth::id();
         $searchMonth = $request->input('search-month');
-        if (!empty($searchMonth))
-        {
-            $reports = $this->report->where('user_id', Auth::id())->where('reporting_time', 'like', '%' . $searchMonth. '%')->orderBy('reporting_time', 'desc')->get();
-            return view('user.daily_report.index', compact('reports', 'searchMonth'));
+        
+        if (!empty($searchMonth)) {
+            $reports = $this->report->getByMonthReports($searchMonth, $userId);
         } else {
-            $reports = $this->report->getByUserId(Auth::id());
-            return view('user.daily_report.index', compact('reports'));
+            $reports = $this->report->getByUserId($userId);
         }
+        return view('user.daily_report.index', compact('reports', 'searchMonth'));
     }
-
-
+    
     public function create()
     {
         return view('user.daily_report.create');
