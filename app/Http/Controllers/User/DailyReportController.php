@@ -39,8 +39,10 @@ class DailyReportController extends Controller
 
     public function store(DailyReportRequest $request)
     {
-        $input = $request->all();
-        $this->report->fill($input)->save();
+        $inputs = $request->all();
+        $inputs['user_id'] = Auth::id();
+
+        $this->report->create($inputs);
         return redirect()->route('report.index');
     }
 
@@ -60,8 +62,8 @@ class DailyReportController extends Controller
 
     public function update(DailyReportRequest $request, $id)
     {
-        $input = $request->all();
-        $this->report->find($id)->fill($input)->save();
+        $inputs = $request->all();
+        $this->report->find($id)->fill($inputs)->save();
         return redirect()->route('report.index');
     }
 
