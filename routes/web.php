@@ -50,8 +50,6 @@ Route::group(['prefix' => '/', 'user.', 'namespace' => 'User'], function () {
 });
 
 
-
-
 Route::group(['prefix' => 'admin', 'as' => 'admin.' ,'namespace' => 'Admin'], function() {
     Auth::routes();
 
