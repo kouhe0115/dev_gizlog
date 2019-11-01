@@ -33,8 +33,8 @@ class DailyReportRequest extends FormRequest
     public function messages() {
         return [
             'required'                => '入力必須の項目です',
-            'title.max'               => '30文字以内で入力してください',
-            'content.max'             => '1000文字以内で入力してください',
+            'title.max'               => ':max文字以内で入力してください',
+            'content.max'             => ':max文字以内で入力してください',
             'reporting_time.before'   => '今日以前の日付を入力してください。',
         ];
     }
