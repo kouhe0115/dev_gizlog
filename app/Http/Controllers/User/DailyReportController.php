@@ -17,7 +17,13 @@ class DailyReportController extends Controller
         $this->middleware('auth');
         $this->report = $report;
     }
-
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         $userId = Auth::id();
@@ -31,12 +37,22 @@ class DailyReportController extends Controller
         return view('user.daily_report.index', compact('reports', 'searchMonth'));
     }
     
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('user.daily_report.create');
     }
-
-
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\User\DailyReportRequest $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(DailyReportRequest $request)
     {
         $inputs = $request->all();
@@ -45,29 +61,51 @@ class DailyReportController extends Controller
         $this->report->create($inputs);
         return redirect()->route('report.index');
     }
-
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $report = $this->report->find($id);
         return view('user.daily_report.show', compact('report'));
     }
-
-
+    
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
         $report = $this->report->find($id);
         return view('user.daily_report.edit', compact('report'));
     }
-
-
+    
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \App\Http\Requests\User\DailyReportRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(DailyReportRequest $request, $id)
     {
         $inputs = $request->all();
         $this->report->find($id)->fill($inputs)->save();
         return redirect()->route('report.index');
     }
-
-
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         $this->report->find($id)->delete();
