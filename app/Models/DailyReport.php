@@ -18,20 +18,26 @@ class DailyReport extends Model
         'reporting_time',
     ];
     
-    public function getByUserId($id)
+    public function scopeWhereMonth($query, $searchMonth)
     {
-        return $this->where('user_id', $id)
-                    ->orderBy('reporting_time', 'desc');
+        return $query->where('reporting_time', 'LIKE', $searchMonth.'%');
     }
     
-    public function getReportByMonth($searchMonth, $id)
+    public function getAllReport($searchMonth, $id)
     {
-        if (is_null($searchMonth)) {
-            return $this->getByUserId($id)->get();
-        } else {
-            return $this->getByUserId($id)
-                        ->where('reporting_time', 'LIKE', $searchMonth.'%')
-                        ->get();
-        }
+        return $this->where('user_id', $id)
+                    ->whereMonth($searchMonth)
+                    ->orderBy('reporting_time', 'desc')
+                    ->get();
     }
+    
+//    public function getAllReport($searchMonth, $id)
+//    {
+//        return $this->where('user_id', $id)
+//                    ->when($searchMonth, function ($query, $searchMonth) {
+//                        return $query->where('reporting_time', 'LIKE', $searchMonth. '%');
+//                    })
+//                    ->orderBy('reporting_time', 'desc')
+//                    ->get();
+//    }
 }
