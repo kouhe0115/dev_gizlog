@@ -18,11 +18,20 @@ class DailyReport extends Model
         'reporting_time',
     ];
     
-    public function getByReports($searchMonth, $id)
+    public function getByUserId($id)
     {
         return $this->where('user_id', $id)
-                    ->where('reporting_time', 'LIKE', $searchMonth. '%')
-                    ->orderBy('reporting_time', 'desc')
-                    ->get();
+                    ->orderBy('reporting_time', 'desc');
+    }
+    
+    public function getReportByMonth($searchMonth, $id)
+    {
+        if (is_null($searchMonth)) {
+            return $this->getByUserId($id)->get();
+        } else {
+            return $this->getByUserId($id)
+                        ->where('reporting_time', 'LIKE', $searchMonth.'%')
+                        ->get();
+        }
     }
 }

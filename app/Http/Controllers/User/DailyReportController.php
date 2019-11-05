@@ -29,7 +29,7 @@ class DailyReportController extends Controller
         $userId = Auth::id();
         $searchMonth = $request->input('search-month');
         
-        $reports = $this->report->getByReports($searchMonth, $userId);
+        $reports = $this->report->getReportByMonth($searchMonth, $userId);
         return view('user.daily_report.index', compact('reports', 'searchMonth'));
     }
     
