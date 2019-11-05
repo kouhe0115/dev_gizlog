@@ -20,7 +20,7 @@ class DailyReport extends Model
     
     public function scopeWhereMonth($query, $searchMonth)
     {
-        return $query->where('reporting_time', 'LIKE', $searchMonth.'%');
+        return $searchMonth ? $query->where('reporting_time', 'LIKE', $searchMonth.'%') : $query ;
     }
     
     public function getAllReport($searchMonth, $id)
