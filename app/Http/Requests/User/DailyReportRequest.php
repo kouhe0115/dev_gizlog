@@ -29,8 +29,9 @@ class DailyReportRequest extends FormRequest
             'reporting_time' => 'required|before:now',
         ];
     }
-    
-    public function messages() {
+
+    public function messages()
+    {
         return [
             'required'                => '入力必須の項目です',
             'title.max'               => ':max文字以内で入力してください',
