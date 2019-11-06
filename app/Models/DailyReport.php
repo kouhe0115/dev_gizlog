@@ -9,7 +9,7 @@ class DailyReport extends Model
 {
     use SoftDeletes;
     
-    protected  $dates = ['deleted_at', 'reporting_time'];
+    protected  $dates = ['reporting_time', 'deleted_at'];
     
     protected $fillable = [
         'user_id',
