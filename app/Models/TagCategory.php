@@ -16,7 +16,7 @@ class TagCategory extends Model
     
     public function question()
     {
-        return $this->hasMany(Question::class, 'category_id');
+        return $this->hasMany(Question::class);
     }
 }
 

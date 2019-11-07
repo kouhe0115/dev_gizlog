@@ -40,12 +40,12 @@ class User extends Authenticatable
     
     public function question()
     {
-        return $this->hasMany(Question::class, 'user_id');
+        return $this->hasMany(Question::class);
     }
     
     public function comment()
     {
-        return $this->hasMany(Comment::class, 'user_id');
+        return $this->hasMany(Comment::class);
     }
 
     public function attendance()
