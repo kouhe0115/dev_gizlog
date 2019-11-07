@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Attendance;
 use App\Models\DailyReport;
+use App\Models\Question;
 use DB;
 use Carbon;
+use PhpParser\Comment;
 
 class User extends Authenticatable
 {
@@ -30,10 +32,20 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token',
     ];
-
+    
     public function dailyReport()
     {
         return $this->hasMany(DailyReport::class, 'user_id');
+    }
+    
+    public function question()
+    {
+        return $this->hasMany(Question::class, 'user_id');
+    }
+    
+    public function comment()
+    {
+        return $this->hasMany(Comment::class, 'user_id');
     }
 
     public function attendance()
