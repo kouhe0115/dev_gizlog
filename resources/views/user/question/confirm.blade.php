@@ -16,7 +16,7 @@
           </tr>
           <tr>
             <th class="table-column">Question</th>
-            <td class='td-text'>{{ $inputs['content'] }}</td>
+            <td class='td-text'>{!! nl2br(e($inputs['content'])) !!}</td>
           </tr>
         </tbody>
       </table>
