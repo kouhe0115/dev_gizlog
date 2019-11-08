@@ -22,7 +22,7 @@
         <tr class="row">
           <td class="col-xs-2">{{ $question->created_at->format('Y/m/d (D)') }}</td>
           <td class="col-xs-1">{{ $question->tagCategory->name }}</td>
-          <td class="col-xs-5">{{ $question->title }}</td>
+          <td class="col-xs-5">{{ str_limit($question->title, 60, '...') }}</td>
           <td class="col-xs-2"><span class="point-color">{{ count($question->comment) }}</span></td>
           <td class="col-xs-1">
             <a class="btn btn-success" href="">
@@ -30,11 +30,9 @@
             </a>
           </td>
           <td class="col-xs-1">
-            <form>
-              <button class="btn btn-danger" type="submit">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
-              </button>
-            </form>
+            {!! Form::open(['route' => ['question.destroy', $question->id], 'method' => 'DELETE']) !!}
+              {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
+            {!! Form::close() !!}
           </td>
         </tr>
       @endforeach
