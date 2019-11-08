@@ -23,12 +23,18 @@ class QuestionsRequest extends FormRequest
      */
     public function rules()
     {
-        //
+        return [
+            'tag_category_id' => 'required',
+            'title'           => 'required|max:1000',
+            'content'         => 'required|max:1000',
+        ];
     }
-
     public function messages()
     {
-        //
+        return [
+            'required'          => '入力必須の項目です',
+            'max'               => ':max文字以内で入力してください',
+        ];
     }
 }
 

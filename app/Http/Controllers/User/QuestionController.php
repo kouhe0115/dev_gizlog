@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\QuestionsRequest;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\TagCategory;
@@ -45,7 +46,9 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        //
+        $categories = $this->category->get()->pluck('name', 'id');
+        
+        return view('user.question.create', compact('categories'));
     }
 
     /**
@@ -56,7 +59,10 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inputs = $request->all();
+        $this->question->create($inputs);
+        
+        return redirect()->route('question.index');
     }
 
     /**
@@ -102,6 +108,14 @@ class QuestionController extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    public function confirm(QuestionsRequest $request)
+    {
+        $inputs = $request->all();
+        $categoryName = $this->category->find($inputs['tag_category_id'])->name;
+        
+        return view('user.question.confirm', compact('inputs', 'categoryName'));
     }
     
     public function myPage($id)
