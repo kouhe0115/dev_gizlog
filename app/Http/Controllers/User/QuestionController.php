@@ -61,7 +61,7 @@ class QuestionController extends Controller
     {
         $inputs = $request->all();
         $this->question->create($inputs);
-        
+
         return redirect()->route('question.index');
     }
 
@@ -73,7 +73,8 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
+        $question = $this->question->find($id);
+        return view('user.question.show', compact('question'));
     }
 
     /**
