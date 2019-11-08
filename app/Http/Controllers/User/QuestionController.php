@@ -5,8 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CommentRequest;
 use App\Http\Requests\User\QuestionsRequest;
-use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Models\Comment;
 use App\Models\Question;
 use App\Models\TagCategory;
 use Illuminate\Support\Facades\Auth;
@@ -89,7 +89,9 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $question = $this->question->find($id);
+        $categories = $this->category->get()->pluck('name', 'id');
+        return view('user.question.edit', compact('question', 'categories'));
     }
 
     /**
@@ -99,9 +101,12 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuestionsRequest $request, $id)
     {
-        //
+        $inputs = $request->all();
+        $this->question->find($id)->update($inputs);
+
+        return redirect()->route('question.index');
     }
 
     /**
