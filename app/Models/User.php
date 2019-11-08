@@ -38,12 +38,12 @@ class User extends Authenticatable
         return $this->hasMany(DailyReport::class, 'user_id');
     }
     
-    public function question()
+    public function questions()
     {
         return $this->hasMany(Question::class);
     }
     
-    public function comment()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }
