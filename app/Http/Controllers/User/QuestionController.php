@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\CommentRequest;
 use App\Http\Requests\User\QuestionsRequest;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\TagCategory;
@@ -13,12 +15,14 @@ class QuestionController extends Controller
 {
     private $question;
     private $category;
+    private $comment;
     
-    public function __construct(Question $question, TagCategory $category)
+    public function __construct(Question $question, TagCategory $category, Comment $comment)
     {
         $this->middleware('auth');
         $this->question = $question;
         $this->category = $category;
+        $this->comment = $comment;
     }
     
     /**
@@ -117,6 +121,14 @@ class QuestionController extends Controller
         $categoryName = $this->category->find($inputs['tag_category_id'])->name;
         
         return view('user.question.confirm', compact('inputs', 'categoryName'));
+    }
+    
+    public function commentStore(CommentRequest $request)
+    {
+        $inputs = $request->all();
+        $this->comment->create($inputs);
+
+        return redirect()->route('question.index');
     }
     
     public function myPage($id)

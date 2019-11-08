@@ -18,7 +18,7 @@
           </tr>
           <tr>
             <th class="table-column">Question</th>
-            <td class='td-text'>{{ $question->content }}</td>
+            <td class='td-text'>{!!  nl2br(e($comment->comment)) !!}</td>
           </tr>
         </tbody>
       </table>
@@ -33,28 +33,27 @@
             <p>{{ $comment->user->name }}</p>
             <p class="comment-date">{{ $comment->created_at->format('Y-m-d m:i') }}</p>
           </div>
-          <div class="comment-body">{{ $comment->comment }}</div>
+          <div class="comment-body">{!!  nl2br(e($comment->comment)) !!}</div>
         </div>
       @endforeach
     </div>
   @endif
   <div class="comment-box">
-    <form>
-      <input name="user_id" type="hidden" value="">
-      <input name="question_id" type="hidden" value="">
+    {!! Form::open(['route' => ['question.commentStore']]) !!}
+      {!! Form::input('hidden', 'question_id', $question->id) !!}
+      {!! Form::input('hidden', 'user_id', Auth::id()) !!}
       <div class="comment-title">
         <img src="{{ $question->user->avatar }}" class="avatar-img"><p>コメントを投稿する</p>
       </div>
       <div class="comment-body">
-        <textarea class="form-control" placeholder="Add your comment..." name="comment" cols="50" rows="10"></textarea>
+        {!! Form::textarea('comment', null, ['class' => 'form-control', 'placeholder' => 'Add your comment...', 'cols' => '50', 'rows' => '10']) !!}
         <span class="help-block"></span>
       </div>
       <div class="comment-bottom">
-        <button type="submit" class="btn btn-success">
-          <i class="fa fa-pencil" aria-hidden="true"></i>
-        </button>
+        {!! Form::button('<i class="fa fa-pencil" aria-hidden="true"></i>', ['class' => 'btn btn-success', 'type' => 'submit']) !!}
       </div>
-    </form>
+    {!! Form::close() !!}
   </div>
 </div>
+
 @endsection
