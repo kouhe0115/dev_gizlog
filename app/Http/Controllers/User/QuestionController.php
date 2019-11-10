@@ -11,6 +11,7 @@ use App\Models\Question;
 use App\Models\TagCategory;
 use Illuminate\Support\Facades\Auth;
 
+
 class QuestionController extends Controller
 {
     private $question;
@@ -35,14 +36,13 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $inputs = $request->all();
-        $questions = $this->question->getQuestion($inputs);
+        $questions = $this->question->getquestion($inputs);
         $categories = $this->category->get();
         
         return view('user.question.index',
                compact('questions', 'categories', 'inputs'));
     }
     
-
     /**
      * Show the form for creating a new resource.
      *
@@ -91,6 +91,7 @@ class QuestionController extends Controller
     {
         $question = $this->question->find($id);
         $categories = $this->category->get()->pluck('name', 'id');
+        
         return view('user.question.edit', compact('question', 'categories'));
     }
 
@@ -118,7 +119,6 @@ class QuestionController extends Controller
     public function destroy($id)
     {
         $this->question->find($id)->delete();
-    
         return redirect()->route('question.index');
     }
     
@@ -138,9 +138,9 @@ class QuestionController extends Controller
         return redirect()->route('question.index');
     }
     
-    public function myPage($id)
+    public function myPage($userId)
     {
-        $inputs['user_id'] = Auth::id();
+        $inputs['user_id'] = $userId;
         $questions = $this->question->getQuestion($inputs);
         
         return view('user.question.mypage', compact('questions'));

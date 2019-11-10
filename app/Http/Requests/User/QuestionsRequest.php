@@ -37,4 +37,3 @@ class QuestionsRequest extends FormRequest
         ];
     }
 }
-

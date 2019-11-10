@@ -40,19 +40,19 @@ class Question extends Model
         return isset($inputs['user_id']) ?
             $query->where('user_id', $inputs['user_id']) : $query;
     }
-    
+
     public function scopeWhereCategory($query, $inputs)
     {
         return !empty($inputs['tag_category_id']) ?
             $query->where('tag_category_id', $inputs['tag_category_id']) : $query;
     }
-    
+
     public function scopeWhereSearchWord($query, $inputs)
     {
         return isset($inputs['search_word']) ?
             $query->where('title', 'LIKE', "%{$inputs['search_word']}%") : $query;
     }
-    
+
     public function getQuestion($inputs)
     {
         return $this->whereCategory($inputs)
@@ -63,4 +63,3 @@ class Question extends Model
                     ->paginate(20);
     }
 }
-
