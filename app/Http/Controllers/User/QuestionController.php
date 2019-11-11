@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Question;
 use App\Models\TagCategory;
+use Auth;
 
 class QuestionController extends Controller
 {
@@ -41,11 +42,9 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $inputs = $request->all();
-        $questions = $this->question->getquestion($inputs);
+        $questions = $this->question->getQuestion($inputs);
         $categories = $this->category->get();
-        
-        return view('user.question.index',
-               compact('questions', 'categories', 'inputs'));
+        return view('user.question.index', compact('questions', 'categories', 'inputs'));
     }
     
     /**
@@ -56,7 +55,6 @@ class QuestionController extends Controller
     public function create()
     {
         $categories = $this->category->get()->pluck('name', 'id');
-        
         return view('user.question.create', compact('categories'));
     }
 
@@ -70,8 +68,8 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $inputs = $request->all();
+        $inputs['user_id'] = Auth::id();
         $this->question->create($inputs);
-
         return redirect()->route('question.index');
     }
 
@@ -99,7 +97,6 @@ class QuestionController extends Controller
     {
         $question = $this->question->find($id);
         $categories = $this->category->get()->pluck('name', 'id');
-        
         return view('user.question.edit', compact('question', 'categories'));
     }
 
@@ -115,7 +112,6 @@ class QuestionController extends Controller
     {
         $inputs = $request->all();
         $this->question->find($id)->update($inputs);
-
         return redirect()->route('question.index');
     }
 
@@ -141,7 +137,6 @@ class QuestionController extends Controller
     {
         $inputs = $request->all();
         $categoryName = $this->category->find($inputs['tag_category_id'])->name;
-        
         return view('user.question.confirm', compact('inputs', 'categoryName'));
     }
     
@@ -155,7 +150,6 @@ class QuestionController extends Controller
     {
         $inputs = $request->all();
         $this->comment->create($inputs);
-
         return redirect()->route('question.index');
     }
     
@@ -169,7 +163,6 @@ class QuestionController extends Controller
     {
         $inputs['user_id'] = $userId;
         $questions = $this->question->getQuestion($inputs);
-        
         return view('user.question.mypage', compact('questions'));
     }
 }
