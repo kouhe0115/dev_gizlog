@@ -24,20 +24,18 @@
       </table>
     </div>
   </div>
-  @if (!empty( $question->comment ))
-    <div class="comment-list">
-      @foreach ($question->comment as $comment)
-        <div class="comment-wrap">
-          <div class="comment-title">
-            <img src="{{ $comment->user->avatar }}" class="avatar-img">
-            <p>{{ $comment->user->name }}</p>
-            <p class="comment-date">{{ $comment->created_at->format('Y-m-d m:i') }}</p>
-          </div>
-          <div class="comment-body">{!!  nl2br(e($comment->comment)) !!}</div>
+  <div class="comment-list">
+    @foreach ($question->comment as $comment)
+      <div class="comment-wrap">
+        <div class="comment-title">
+          <img src="{{ $comment->user->avatar }}" class="avatar-img">
+          <p>{{ $comment->user->name }}</p>
+          <p class="comment-date">{{ $comment->created_at->format('Y-m-d m:i') }}</p>
         </div>
-      @endforeach
-    </div>
-  @endif
+        <div class="comment-body">{!!  nl2br(e($comment->comment)) !!}</div>
+      </div>
+    @endforeach
+  </div>
   <div class="comment-box">
     {!! Form::open(['route' => ['question.commentStore']]) !!}
       {!! Form::input('hidden', 'question_id', $question->id) !!}
