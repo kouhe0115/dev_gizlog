@@ -38,8 +38,8 @@
   </div>
   <div class="comment-box">
     {!! Form::open(['route' => ['question.commentStore']]) !!}
-      {!! Form::input('hidden', 'question_id', $question->id) !!}
-      {!! Form::input('hidden', 'user_id', Auth::id()) !!}
+      {!! Form::hidden('question_id', $question->id) !!}
+      {!! Form::hidden('user_id', Auth::id()) !!}
       <div class="comment-title">
         <img src="{{ $question->user->avatar }}" class="avatar-img"><p>コメントを投稿する</p>
       </div>
