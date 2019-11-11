@@ -1,6 +1,6 @@
 @extends ('common.user')
 @section ('content')
-  
+
 <h2 class="brand-header">質問投稿</h2>
 <div class="main-wrap">
   <div class="container">
