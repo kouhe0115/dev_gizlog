@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Question;
 use App\Models\TagCategory;
-use Illuminate\Support\Facades\Auth;
-
 
 class QuestionController extends Controller
 {
@@ -18,6 +16,13 @@ class QuestionController extends Controller
     private $category;
     private $comment;
     
+    /**
+     * コンストラクタ
+     *
+     * @param Question $question
+     * @param TagCategory $category
+     * @param Comment $comment
+     */
     public function __construct(Question $question, TagCategory $category, Comment $comment)
     {
         $this->middleware('auth');
@@ -27,7 +32,7 @@ class QuestionController extends Controller
     }
     
     /**
-     * Display a listing of the resource.
+     * 一覧画面の表示
      *
      * @param  $request
      *
@@ -44,7 +49,7 @@ class QuestionController extends Controller
     }
     
     /**
-     * Show the form for creating a new resource.
+     * 新規作成画面の表示
      *
      * @return \Illuminate\Http\Response
      */
@@ -56,9 +61,10 @@ class QuestionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 新規登録機能
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -70,9 +76,10 @@ class QuestionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 詳細画面の表示
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -82,9 +89,10 @@ class QuestionController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 編集画面の表示
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -96,10 +104,11 @@ class QuestionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 質問の更新処理
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  QuestionsRequest  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(QuestionsRequest $request, $id)
@@ -111,7 +120,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 質問削除機能
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -122,6 +131,12 @@ class QuestionController extends Controller
         return redirect()->route('question.index');
     }
     
+    /**
+     * 確認画面を表示
+     *
+     * @param  QuestionsRequest $request
+     * @return \Illuminate\Http\Response
+     */
     public function confirm(QuestionsRequest $request)
     {
         $inputs = $request->all();
@@ -130,6 +145,12 @@ class QuestionController extends Controller
         return view('user.question.confirm', compact('inputs', 'categoryName'));
     }
     
+    /**
+     * コメント登録処理
+     *
+     * @param  CommentRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function commentStore(CommentRequest $request)
     {
         $inputs = $request->all();
@@ -138,6 +159,12 @@ class QuestionController extends Controller
         return redirect()->route('question.index');
     }
     
+    /**
+     * ユーザーぺージの表示
+     *
+     * @param  int  $userId
+     * @return \Illuminate\Http\Response
+     */
     public function myPage($userId)
     {
         $inputs['user_id'] = $userId;
