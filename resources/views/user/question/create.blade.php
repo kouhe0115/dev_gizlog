@@ -14,7 +14,7 @@
       <span class="help-block">{{ $errors->first('title') }}</span>
     </div>
     <div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
-      {!! Form::textarea('content', null, ['class' => 'form-control', 'placeholder' => 'Please write down your question here...', 'cols' => '50', 'rows' => '10']) !!}
+      {!! Form::textarea('content', null, ['class' => 'form-control', 'placeholder' => 'Please write down your question here...']) !!}
       <span class="help-block">{{ $errors->first('content') }}</span>
     </div>
     {!! Form::input('submit', 'confirm', 'create', ['class' => 'btn btn-success pull-right']) !!}
