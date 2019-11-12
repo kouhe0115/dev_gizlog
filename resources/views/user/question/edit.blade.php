@@ -6,6 +6,7 @@
 <div class="main-wrap">
   <div class="container">
     {!! Form::open(['route' => ['question.confirm'], 'class' => 'category-id']) !!}
+    {{ Form::hidden('question_id', $question->id) }}
       <div class="form-group {{ $errors->has('tag_category_id') ? 'has-error' : '' }}">
         {!! Form::select('tag_category_id',  $categories, $question->tagCategory->id, ['id' => 'pref_id', 'class' => 'form-control selectpicker form-size-small', 'placeholder' => 'Select category']) !!}
         <span class="help-block">{{ $errors->first('tag_category_id') }}</span>

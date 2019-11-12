@@ -27,6 +27,7 @@
       {!! Form::open(['route' => 'question.store', 'method' => 'post']) !!}
     @else
       {!! Form::open(['route' => ['question.update', Auth::id()], 'method' => 'put']) !!}
+      {{ Form::hidden('question_id', $inputs['question_id']) }}
     @endif
       {!! Form::hidden('tag_category_id', $inputs['tag_category_id']) !!}
       {!! Form::hidden('title', $inputs['title']) !!}
