@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchQuestionRequest;
 use App\Http\Requests\User\CommentRequest;
 use App\Http\Requests\User\QuestionsRequest;
-use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Question;
 use App\Models\TagCategory;
@@ -44,7 +43,7 @@ class QuestionController extends Controller
     {
         $inputs = $request->all();
         $questions = $this->question->getQuestion($inputs);
-        $categories = $this->category->get();
+        $categories = $this->category->all();
         return view('user.question.index', compact('questions', 'categories', 'inputs'));
     }
     
