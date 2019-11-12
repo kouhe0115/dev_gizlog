@@ -65,7 +65,7 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuestionsRequest $request)
     {
         $inputs = $request->all();
         $inputs['user_id'] = Auth::id();
@@ -108,10 +108,10 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(QuestionsRequest $request, $id)
+    public function update(QuestionsRequest $request)
     {
         $inputs = $request->all();
-        $this->question->find($id)->update($inputs);
+        $this->question->find($inputs['question_id'])->update($inputs);
         return redirect()->route('question.index');
     }
 
