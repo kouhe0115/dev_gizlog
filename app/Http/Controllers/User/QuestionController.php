@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SearchQuestionRequest;
 use App\Http\Requests\User\CommentRequest;
 use App\Http\Requests\User\QuestionsRequest;
 use Illuminate\Http\Request;
@@ -35,14 +36,13 @@ class QuestionController extends Controller
     /**
      * 一覧画面の表示
      *
-     * @param  $request
+     * @param  SearchQuestionRequest $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function index(Request $request)
+    public function index(SearchQuestionRequest $request)
     {
         $inputs = $request->all();
-//        dd($inputs);
         $questions = $this->question->getQuestion($inputs);
         $categories = $this->category->get();
         return view('user.question.index', compact('questions', 'categories', 'inputs'));
@@ -51,7 +51,7 @@ class QuestionController extends Controller
     /**
      * 新規作成画面の表示
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
     {
@@ -62,9 +62,9 @@ class QuestionController extends Controller
     /**
      * 新規登録機能
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  QuestionsRequest  $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(QuestionsRequest $request)
     {
@@ -79,7 +79,7 @@ class QuestionController extends Controller
      *
      * @param  int  $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function show($id)
     {
@@ -92,7 +92,7 @@ class QuestionController extends Controller
      *
      * @param  int  $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit($id)
     {
@@ -107,7 +107,7 @@ class QuestionController extends Controller
      * @param  QuestionsRequest  $request
      * @param  int  $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(QuestionsRequest $request)
     {
@@ -120,7 +120,7 @@ class QuestionController extends Controller
      * 質問削除機能
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -131,8 +131,8 @@ class QuestionController extends Controller
     /**
      * 確認画面を表示
      *
-     * @param  QuestionsRequest $request
-     * @return \Illuminate\Http\Response
+     * @param  QuestionsRequest  $request
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function confirm(QuestionsRequest $request)
     {
@@ -145,7 +145,7 @@ class QuestionController extends Controller
      * コメント登録処理
      *
      * @param  CommentRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function commentStore(CommentRequest $request)
     {
@@ -158,7 +158,7 @@ class QuestionController extends Controller
      * ユーザーぺージの表示
      *
      * @param  int  $userId
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function myPage($userId)
     {
