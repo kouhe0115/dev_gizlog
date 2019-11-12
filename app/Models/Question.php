@@ -25,7 +25,7 @@ class Question extends Model
         return $this->belongsTo(User::class);
     }
     
-    public function comment()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }
@@ -58,7 +58,7 @@ class Question extends Model
         return $this->whereCategory($inputs)
                     ->whereSearchWord($inputs)
                     ->whereUserId($inputs)
-                    ->with(['user', 'tagCategory', 'comment'])
+                    ->with(['user', 'tagCategory', 'comments'])
                     ->orderBy('created_at','desc')
                     ->paginate(20);
     }
