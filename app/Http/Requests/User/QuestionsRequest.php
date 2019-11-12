@@ -33,6 +33,7 @@ class QuestionsRequest extends FormRequest
     {
         return [
             'required'          => '入力必須の項目です',
+            'exists'            => '入力必須の項目です',
             'max'               => ':max文字以内で入力してください',
         ];
     }

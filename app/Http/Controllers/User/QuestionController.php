@@ -54,7 +54,8 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        $categories = $this->category->get()->pluck('name', 'id');
+//        $categories = $this->category->get()->pluck('name', 'id');
+        $categories = $this->category->get()->pluck('name', 'id')->prepend('Select category');
         return view('user.question.create', compact('categories'));
     }
 
@@ -148,7 +149,7 @@ class QuestionController extends Controller
      */
     public function commentStore(CommentRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $this->comment->create($inputs);
         return redirect()->route('question.index');
     }
