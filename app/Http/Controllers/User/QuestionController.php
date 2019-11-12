@@ -42,6 +42,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $inputs = $request->all();
+//        dd($inputs);
         $questions = $this->question->getQuestion($inputs);
         $categories = $this->category->get();
         return view('user.question.index', compact('questions', 'categories', 'inputs'));
@@ -54,7 +55,6 @@ class QuestionController extends Controller
      */
     public function create()
     {
-//        $categories = $this->category->get()->pluck('name', 'id');
         $categories = $this->category->get()->pluck('name', 'id')->prepend('Select category');
         return view('user.question.create', compact('categories'));
     }
@@ -68,7 +68,7 @@ class QuestionController extends Controller
      */
     public function store(QuestionsRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
         $this->question->create($inputs);
         return redirect()->route('question.index');
@@ -97,7 +97,7 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = $this->question->find($id);
-        $categories = $this->category->get()->pluck('name', 'id');
+        $categories = $this->category->get()->pluck('name', 'id')->prepend('Select category');
         return view('user.question.edit', compact('question', 'categories'));
     }
 
@@ -111,7 +111,7 @@ class QuestionController extends Controller
      */
     public function update(QuestionsRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $this->question->find($inputs['question_id'])->update($inputs);
         return redirect()->route('question.index');
     }
@@ -136,7 +136,7 @@ class QuestionController extends Controller
      */
     public function confirm(QuestionsRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $categoryName = $this->category->find($inputs['tag_category_id'])->name;
         return view('user.question.confirm', compact('inputs', 'categoryName'));
     }
