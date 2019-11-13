@@ -28,7 +28,7 @@ class QuestionsRequest extends FormRequest
             'question_id'     => 'nullable|exists:questions,id',
             'title'           => 'required|max:1000',
             'content'         => 'required|max:1000',
-            'confirm'         => 'required',
+            'confirm'         => 'nullable',
         ];
     }
     public function messages()
