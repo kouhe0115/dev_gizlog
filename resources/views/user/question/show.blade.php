@@ -25,7 +25,7 @@
     </div>
   </div>
   <div class="comment-list">
-    @foreach ($question->comment as $comment)
+    @foreach ($question->comments as $comment)
       <div class="comment-wrap">
         <div class="comment-title">
           <img src="{{ $comment->user->avatar }}" class="avatar-img">
