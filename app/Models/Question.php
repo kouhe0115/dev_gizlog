@@ -35,29 +35,29 @@ class Question extends Model
         return $this->belongsTo(TagCategory::class);
     }
     
-    public function scopeWhereUserId($query, $inputs)
+    public function scopeWhereUserId($query, $attributes)
     {
-        return isset($inputs['user_id']) ?
-            $query->where('user_id', $inputs['user_id']) : $query;
+        return isset($attributes['user_id']) ?
+            $query->where('user_id', $attributes['user_id']) : $query;
     }
 
-    public function scopeWhereCategory($query, $inputs)
+    public function scopeWhereCategory($query, $attributes)
     {
-        return !empty($inputs['tag_category_id']) ?
-            $query->where('tag_category_id', $inputs['tag_category_id']) : $query;
+        return !empty($attributes['tag_category_id']) ?
+            $query->where('tag_category_id', $attributes['tag_category_id']) : $query;
     }
 
-    public function scopeWhereSearchWord($query, $inputs)
+    public function scopeWhereSearchWord($query, $attributes)
     {
-        return isset($inputs['search_word']) ?
-            $query->where('title', 'LIKE', "%{$inputs['search_word']}%") : $query;
+        return isset($attributes['search_word']) ?
+            $query->where('title', 'LIKE', "%{$attributes['search_word']}%") : $query;
     }
 
-    public function getQuestion($inputs)
+    public function getQuestion($attributes)
     {
-        return $this->whereCategory($inputs)
-                    ->whereSearchWord($inputs)
-                    ->whereUserId($inputs)
+        return $this->whereCategory($attributes)
+                    ->whereSearchWord($attributes)
+                    ->whereUserId($attributes)
                     ->with(['user', 'tagCategory', 'comments'])
                     ->orderBy('created_at','desc')
                     ->paginate(20);
