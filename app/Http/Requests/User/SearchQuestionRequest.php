@@ -24,7 +24,8 @@ class SearchQuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            'tag_category_id' => 'nullable|exists:tag_categories,id',
+//            'tag_category_id' => 'nullable|exists:tag_categories,id',
+            'tag_category_id' => 'nullable',
             'search_word' => 'nullable',
         ];
     }
