@@ -41,7 +41,7 @@ class QuestionController extends Controller
      */
     public function index(SearchQuestionRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $questions = $this->question->getQuestion($inputs);
         $categories = $this->category->all();
         return view('user.question.index', compact('questions', 'categories', 'inputs'));
