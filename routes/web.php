@@ -43,18 +43,19 @@ Route::group(['prefix' => '/', 'user.', 'namespace' => 'User'], function () {
      * 静的なページが簡単に確認できるように ClosureでViewを返しています。処理に応じて編集してください。
      * 尚、このコメントアウトはコード提出の際は削除してください。
      */
-    Route::get('attendance', function () {
-        return view('user.attendance.index');
-    });
+    
+    Route::get('attendance', 'AttendanceController@index')->name('attendance');
+    Route::get('attendance/mypage', 'AttendanceController@mypage')->name('attendance.mypage');
+    Route::post('attendance', 'AttendanceController@setStartAbsent')->name('attendance.setStartAbsent');
+    Route::put('attendance/{id}', 'AttendanceController@setEndAbsent')->name('attendance.setEndAbsent');
+    
     Route::get('attendance/absence', function () {
         return view('user.attendance.absence');
     });
     Route::get('attendance/modify', function () {
         return view('user.attendance.modify');
     });
-    Route::get('attendance/mypage', function () {
-        return view('user.attendance.mypage');
-    });
+
     /*
      * ---------------------------------------------------------
      */
