@@ -65,8 +65,36 @@ class AttendanceController extends Controller
         return redirect()->route('attendance');
     }
     
-    public function mypage()
+    /**
+     * 欠席理由画面の表示
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showAbsence()
     {
-        return view('user.attendance.mypage');
+        return view('user.attendance.absence');
     }
+    
+    /**
+     * 欠席、理由の登録
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setAbsence(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['user_id'] = Auth::id();
+        $inputs['absent_flg'] = 1;
+        $inputs['date'] = Carbon::now()->format('Y-m-d');
+        $this->attendance->fill($inputs)->save();
+        return redirect()->route('attendance');
+    }
+    
+    /**
+     *ログイン中のユーザーの勤怠記録の表示
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
 }
