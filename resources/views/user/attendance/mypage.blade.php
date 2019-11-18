@@ -8,15 +8,15 @@
     <div class="my-info day-info">
       <p>学習経過日数</p>
       <div class="study-hour-box clearfix">
-        <div class="userinfo-box"><img src="https://avatars.slack-edge.com/2019-01-25/532734044915_486bec3294a9f7b34291_192.png"></div>
-        <p class="study-hour"><span>3</span>日</p>
+        <div class="userinfo-box"><img src="{{ Auth::user()->avatar }}"></div>
+        <p class="study-hour"><span>{{ $attendancesCount }}</span>日</p>
       </div>
     </div>
     <div class="my-info">
       <p>累計学習時間</p>
       <div class="study-hour-box clearfix">
-        <div class="userinfo-box"><img src="https://avatars.slack-edge.com/2019-01-25/532734044915_486bec3294a9f7b34291_192.png"></div>
-        <p class="study-hour"><span>18</span>時間</p>
+        <div class="userinfo-box"><img src="{{ Auth::user()->avatar }}"></div>
+        <p class="study-hour"><span>{{ $totalLearningTime }}</span>時間</p>
       </div>
     </div>
   </div>
@@ -32,34 +32,15 @@
         </tr>
       </thead>
       <tbody>
-      <tr class="row">
-        <td class="col-xs-2">07/01 (Mon)</td>
-        <td class="col-xs-3">08:29</td>
-        <td class="col-xs-3">19:30</td>
-        <td class="col-xs-2">出社</td>
-        <td class="col-xs-2">-</td>
+        @foreach ($attendances as $attendance)
+      <tr class="row {{ $attendance->absent_flg === 1 ? 'absent-row' : '' }}">
+          <td class="col-xs-2">{{ $attendance->date->format('Y-m-d') ?: '-' }}</td>
+          <td class="col-xs-3">{{ $attendance->start_time ?: '-'}}  </td>
+          <td class="col-xs-3">{{ $attendance->end_time ?: '-' }}</td>
+          <td class="col-xs-2">{{ !$attendance->absent_flg ? '出社' : '欠席' }}</td>
+          <td class="col-xs-2">{{ $attendance->request_content ? '申請中' : '-' }}</td>
       </tr>
-      <tr class="row absent-row">
-        <td class="col-xs-2">07/02 (Tue)</td>
-        <td class="col-xs-3">-</td>
-        <td class="col-xs-3">-</td>
-        <td class="col-xs-2">欠席</td>
-        <td class="col-xs-2">-</td>
-      </tr>
-      <tr class="row">
-        <td class="col-xs-2">07/03 (Wed)</td>
-        <td class="col-xs-3">10:44</td>
-        <td class="col-xs-3">19:37</td>
-        <td class="col-xs-2">出社</td>
-        <td class="col-xs-2">申請中</td>
-      </tr>
-      <tr class="row">
-        <td class="col-xs-2">07/04 (Thr)</td>
-        <td class="col-xs-3">08:52</td>
-        <td class="col-xs-3">-</td>
-        <td class="col-xs-2">研修中</td>
-        <td class="col-xs-2">-</td>
-      </tr>
+        @endforeach
       </tbody>
     </table>
   </div>

@@ -6,21 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Auth;
-use Carbon\Carbon;
+use App\Service\AttendanceService;
 
 class AttendanceController extends Controller
 {
     private $attendance;
+    private $attendanceService;
     
     /**
-     * コンストラクター
-     *
-     * Attendance $attendance
+     * AttendanceController constructor.
      * @param Attendance $attendance
+     * @param AttendanceService $attendanceService
      */
-    public function __construct(Attendance $attendance)
+    public function __construct(Attendance $attendance, AttendanceService $attendanceService)
     {
         $this->attendance = $attendance;
+        $this->attendanceService = $attendanceService;
     }
     
     /**
@@ -31,8 +32,7 @@ class AttendanceController extends Controller
     public function index()
     {
         $userId = Auth::id();
-        $d = Carbon::now()->format('Y-m-d');
-        $attendance = $this->attendance->where('date', $d)->where('user_id', $userId)->first();
+        $attendance = $this->attendanceService->getByTodayAttendance($userId);
         return view('user.attendance.index', compact('attendance'));
     }
     
@@ -46,7 +46,7 @@ class AttendanceController extends Controller
     {
         $inputs = $request->all();
         $inputs['user_id'] = Auth::id();
-        $inputs['date'] = Carbon::now()->format('Y-m-d');
+        $inputs['date'] = $this->attendanceService->getNowDate();
         $this->attendance->fill($inputs)->save();
         return redirect()->route('attendance');
     }
@@ -86,15 +86,47 @@ class AttendanceController extends Controller
         $inputs = $request->all();
         $inputs['user_id'] = Auth::id();
         $inputs['absent_flg'] = 1;
-        $inputs['date'] = Carbon::now()->format('Y-m-d');
+        $inputs['date'] = $this->attendanceService->getNowDate();
         $this->attendance->fill($inputs)->save();
         return redirect()->route('attendance');
     }
     
     /**
-     *ログイン中のユーザーの勤怠記録の表示
+     * 修正申請画面表示
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-
+    public function modify()
+    {
+        return view('user.attendance.modify');
+    }
+    
+    /**
+     * 修正申請を登録する
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createModify(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['user_id'] = Auth::id();
+        $attendance = $this->attendanceService->getAttendanceBySearchDate($inputs);
+        $attendance->fill($inputs)->save();
+        return redirect()->route('attendance');
+    }
+    
+    /**
+     * ログイン中のユーザーの勤怠記録の表示
+     *
+     * @param $userId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function mypage($userId)
+    {
+        $attendances = $this->attendanceService->getByUserId($userId);
+        $attendancesCount = $this->attendanceService->getAttendancesCount($userId);
+        $totalLearningTime = $this->attendanceService->getTotalLearningTime($userId);
+        return view('user.attendance.mypage', compact('attendances', 'totalLearningTime', 'attendancesCount'));
+    }
 }

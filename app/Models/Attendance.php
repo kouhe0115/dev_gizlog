@@ -29,10 +29,4 @@ class Attendance extends Model
     {
         $this->belongsTo(User::class);
     }
-    
-    
 }
-
-
-
-

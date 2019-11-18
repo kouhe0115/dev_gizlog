@@ -161,6 +161,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Socialite\SocialiteServiceProvider::class,
+    
+        App\Providers\AttendanceServiceProvider::class,
     ],
 
     /*
