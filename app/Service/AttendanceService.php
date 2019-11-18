@@ -33,12 +33,11 @@ class AttendanceService
     /**
      * ログイン中のユーザーの今日の勤怠管理を取得
      *
-     * @param $d
-     * @param $userId
      * @return mixed
      */
-    public function getByTodayAttendance($userId)
+    public function getByTodayAttendance()
     {
+        $userId = Auth::id();
         $d = $this->getNowDate();
         return $this->attendance->where('date', $d)->where('user_id', $userId)->first();
     }
@@ -57,16 +56,51 @@ class AttendanceService
     }
 
     /**
-     * 日時を指定しての勤怠管理の取得
+     * 出勤時間の登録
      *
      * @param $attributes
-     * @return mixed
      */
-    public function getAttendanceBySearchDate($attributes)
+    public function setStartTime($attributes)
     {
-        return $this->attendance->where('user_id', Auth::id())
-                                ->where('date', $attributes['searchDate'])
-                                ->first();
+        $attributes['user_id'] = Auth::id();
+        $attributes['date'] = $this->getNowDate();
+        $this->attendance->fill($attributes)->save();
+    }
+
+    /**
+     * 退勤時間の登録
+     *
+     * @param $attributes
+     * @param $id
+     */
+    public function setEndTime($attributes, $id)
+    {
+        $this->attendance->find($id)->fill($attributes)->save();
+    }
+
+    /**
+     * 欠席、理由の登録
+     *
+     * @param $attributes
+     */
+    public function setAbsence($attributes)
+    {
+        $attributes['user_id'] = Auth::id();
+        $attributes['absent_flg'] = 1;
+        $attributes['date'] = $this->getNowDate();
+        $this->attendance->fill($attributes)->save();
+    }
+
+    /**
+     * 修正申請を登録
+     *
+     * @param $attributes
+     */
+    public function setRequest($attributes)
+    {
+        $this->attendance->where('user_id', Auth::id())
+                         ->where('date', $attributes['searchDate'])
+                         ->first()->fill($attributes)->save();
     }
 
     /**
