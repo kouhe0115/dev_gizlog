@@ -50,10 +50,8 @@ Route::group(['prefix' => '/', 'user.', 'namespace' => 'User'], function () {
     Route::put('attendance/{id}', 'AttendanceController@setEndAbsent')->name('attendance.setEndAbsent');
     Route::get('attendance/absence', 'AttendanceController@showAbsence')->name('attendance.showAbsence');
     Route::post('attendance/absence', 'AttendanceController@setAbsence')->name('attendance.setAbsence');
-    
-    Route::get('attendance/modify', function () {
-        return view('user.attendance.modify');
-    });
+    Route::get('attendance/modify', 'AttendanceController@modify')->name('attendance.modify');
+    Route::post('attendance/modify', 'AttendanceController@createModify')->name('attendance.createModify');
 
     /*
      * ---------------------------------------------------------
