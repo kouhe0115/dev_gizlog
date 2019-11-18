@@ -2,9 +2,8 @@
 @section ('content')
   
   <h2 class="brand-header">勤怠登録</h2>
-  
+
   <div class="main-wrap">
-    
     <div id="clock" class="light">
       <div class="display">
         <div class="weekdays"></div>
@@ -37,7 +36,7 @@
       </li>
     </ul>
   </div>
-  
+
   <div id="openModal" class="modalDialog">
     <div>
       <div class="register-text-wrap"><p>{{ Carbon::now() }}</p></div>
@@ -56,6 +55,4 @@
     </div>
   </div>
 
-
 @endsection
-

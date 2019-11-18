@@ -37,12 +37,6 @@ Route::group(['prefix' => '/', 'user.', 'namespace' => 'User'], function () {
     Route::post('question/{id}/confirm', ['as' => 'confirm.update', 'uses' => 'QuestionController@confirm']);
     Route::post('question/{id}/comment', ['as' => 'question.comment', 'uses' => 'QuestionController@storeComment']);
     Route::resource('question', QuestionController::class);
-
-    /* 
-     * ----------------------------------------------------------
-     * 静的なページが簡単に確認できるように ClosureでViewを返しています。処理に応じて編集してください。
-     * 尚、このコメントアウトはコード提出の際は削除してください。
-     */
     
     Route::get('attendance', 'AttendanceController@index')->name('attendance');
     Route::get('attendance/{id}/mypage', 'AttendanceController@mypage')->name('attendance.mypage');
@@ -52,11 +46,6 @@ Route::group(['prefix' => '/', 'user.', 'namespace' => 'User'], function () {
     Route::post('attendance/absence', 'AttendanceController@setAbsence')->name('attendance.setAbsence');
     Route::get('attendance/modify', 'AttendanceController@modify')->name('attendance.modify');
     Route::post('attendance/modify', 'AttendanceController@createModify')->name('attendance.createModify');
-
-    /*
-     * ---------------------------------------------------------
-     */
-
 });
 
 
