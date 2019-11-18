@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Auth;
 use App\Service\AttendanceService;
+use App\Http\Requests\User\AttendanceRequest;
 
 class AttendanceController extends Controller
 {
@@ -42,9 +43,9 @@ class AttendanceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setStartAbsent(Request $request)
+    public function setStartAbsent(AttendanceRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
         $inputs['date'] = $this->attendanceService->getNowDate();
         $this->attendance->fill($inputs)->save();
@@ -58,9 +59,9 @@ class AttendanceController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setEndAbsent(Request $request, $id)
+    public function setEndAbsent(AttendanceRequest $request, $id)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $this->attendance->find($id)->fill($inputs)->save();
         return redirect()->route('attendance');
     }
@@ -81,9 +82,9 @@ class AttendanceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setAbsence(Request $request)
+    public function setAbsence(AttendanceRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
         $inputs['absent_flg'] = 1;
         $inputs['date'] = $this->attendanceService->getNowDate();
@@ -107,9 +108,9 @@ class AttendanceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function createModify(Request $request)
+    public function createModify(AttendanceRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
         $attendance = $this->attendanceService->getAttendanceBySearchDate($inputs);
         $attendance->fill($inputs)->save();
