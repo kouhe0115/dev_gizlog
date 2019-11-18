@@ -3,12 +3,12 @@ namespace App\Service;
 
 use App\Models\Attendance;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Auth;
 
 class AttendanceService
 {
     private $attendance;
-    
+
     /**
      * コンストラクター
      *
@@ -19,7 +19,7 @@ class AttendanceService
     {
         $this->attendance = $attendance;
     }
-    
+
     /**
      * 現在時間の取得
      *
@@ -29,7 +29,7 @@ class AttendanceService
     {
         return Carbon::now()->format('Y-m-d');
     }
-    
+
     /**
      * ログイン中のユーザーの今日の勤怠管理を取得
      *
@@ -42,7 +42,7 @@ class AttendanceService
         $d = $this->getNowDate();
         return $this->attendance->where('date', $d)->where('user_id', $userId)->first();
     }
-    
+
     /**
      * ログイン中のユーザーの勤怠管理の取得
      *
@@ -55,7 +55,7 @@ class AttendanceService
                                 ->orderBy('date','desc')
                                 ->get();
     }
-    
+
     /**
      * 日時を指定しての勤怠管理の取得
      *
@@ -68,7 +68,7 @@ class AttendanceService
                                 ->where('date', $attributes['searchDate'])
                                 ->first();
     }
-    
+
     /**
      *学習時間の合計を取得
      *
@@ -89,7 +89,7 @@ class AttendanceService
         };
         return $totalLearningTime = round($totalLearningTime / 60);
     }
-    
+
     /**
      * 出勤日数の取得
      *

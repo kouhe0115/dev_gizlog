@@ -21,6 +21,7 @@ class AttendanceController extends Controller
      */
     public function __construct(Attendance $attendance, AttendanceService $attendanceService)
     {
+        $this->middleware('auth');
         $this->attendance = $attendance;
         $this->attendanceService = $attendanceService;
     }
