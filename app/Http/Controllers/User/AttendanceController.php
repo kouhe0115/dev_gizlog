@@ -27,7 +27,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendance = $this->attendanceService->getByTodayAttendance();
+        $attendance = $this->attendanceService->getTodayAttendance();
         return view('user.attendance.index', compact('attendance'));
     }
     

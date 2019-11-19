@@ -35,7 +35,7 @@ class AttendanceService
      *
      * @return mixed
      */
-    public function getByTodayAttendance()
+    public function getTodayAttendance()
     {
         $userId = Auth::id();
         $d = $this->getNowDate();
@@ -88,7 +88,9 @@ class AttendanceService
         $attributes['user_id'] = Auth::id();
         $attributes['absent_flg'] = 1;
         $attributes['date'] = $this->getNowDate();
-        $this->attendance->fill($attributes)->save();
+        $this->attendance->updateOrCreate(
+            ['user_id' => $attributes['user_id'], 'date' => $attributes['date']], $attributes
+        );
     }
 
     /**
