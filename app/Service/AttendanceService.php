@@ -3,7 +3,6 @@ namespace App\Service;
 
 use App\Models\Attendance;
 use Carbon\Carbon;
-use Auth;
 
 class AttendanceService
 {
