@@ -35,9 +35,8 @@ class AttendanceService
      *
      * @return mixed
      */
-    public function getTodayAttendance()
+    public function getTodayAttendance($userId)
     {
-        $userId = Auth::id();
         $d = $this->getNowDate();
         return $this->attendance->where('date', $d)->where('user_id', $userId)->first();
     }
@@ -62,7 +61,6 @@ class AttendanceService
      */
     public function setStartTime($attributes)
     {
-        $attributes['user_id'] = Auth::id();
         $attributes['date'] = $this->getNowDate();
         $this->attendance->fill($attributes)->save();
     }
@@ -85,8 +83,6 @@ class AttendanceService
      */
     public function setAbsence($attributes)
     {
-        $attributes['user_id'] = Auth::id();
-        $attributes['absent_flg'] = 1;
         $attributes['date'] = $this->getNowDate();
         $this->attendance->updateOrCreate(
             ['user_id' => $attributes['user_id'], 'date' => $attributes['date']], $attributes
@@ -100,7 +96,7 @@ class AttendanceService
      */
     public function setRequest($attributes)
     {
-        $this->attendance->where('user_id', Auth::id())
+        $this->attendance->where('user_id', $attributes['user_id'])
                          ->where('date', $attributes['searchDate'])
                          ->first()->fill($attributes)->save();
     }

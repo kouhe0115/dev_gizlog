@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Service\AttendanceService;
 use App\Http\Requests\User\AttendanceRequest;
+use Auth;
 
 class AttendanceController extends Controller
 {
@@ -27,7 +28,8 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendance = $this->attendanceService->getTodayAttendance();
+        $userId = Auth::id();
+        $attendance = $this->attendanceService->getTodayAttendance($userId);
         return view('user.attendance.index', compact('attendance'));
     }
     
@@ -40,6 +42,7 @@ class AttendanceController extends Controller
     public function setStartAbsent(AttendanceRequest $request)
     {
         $inputs = $request->validated();
+        $inputs['user_id'] = Auth::id();
         $this->attendanceService->setStartTime($inputs);
         return redirect()->route('attendance');
     }
@@ -77,6 +80,8 @@ class AttendanceController extends Controller
     public function setAbsence(AttendanceRequest $request)
     {
         $inputs = $request->validated();
+        $inputs['user_id'] = Auth::id();
+        $inputs['absent_flg'] = 1;
         $this->attendanceService->setAbsence($inputs);
         return redirect()->route('attendance');
     }
@@ -100,6 +105,7 @@ class AttendanceController extends Controller
     public function createModify(AttendanceRequest $request)
     {
         $inputs = $request->validated();
+        $inputs[(user_id)] = Auth::id();
         $this->attendanceService->setRequest($inputs);
         return redirect()->route('attendance');
     }
