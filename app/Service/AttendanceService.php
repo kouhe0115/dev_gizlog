@@ -28,10 +28,11 @@ class AttendanceService
     {
         return Carbon::now()->format('Y-m-d');
     }
-
+    
     /**
      * ログイン中のユーザーの今日の勤怠管理を取得
      *
+     * @param $userId
      * @return mixed
      */
     public function getTodayAttendance($userId)
