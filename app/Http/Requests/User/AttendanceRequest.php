@@ -29,7 +29,7 @@ class AttendanceRequest extends FormRequest
             'request_content' => 'sometimes|required|max:500',
             'absent_reason'   => 'sometimes|required|max:500',
             'date'            => 'sometimes|before:now',
-            'searchDate'      => 'sometimes|before:now',
+            'searchDate'      => 'sometimes|required|before:now',
         ];
     }
 
@@ -38,7 +38,7 @@ class AttendanceRequest extends FormRequest
         return [
             'required'        => '入力必須の項目です',
             'max'             => ':max文字以内で入力してください。',
-            'before:now'      => '今日以前で入力してください。',
+            'before'          => '今日以前で入力してください。',
         ];
     }
 }
