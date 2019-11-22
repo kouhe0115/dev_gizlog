@@ -5,7 +5,8 @@ namespace App\Service;
 use App\Models\Attendance;
 use Carbon\Carbon;
 
-const HOURS_TO_MINUTES = 60;
+const MINUTES_TO_HOURS = 60;
+const DAILY_FORMAT = 'Y-m-d';
 
 /**
  * 勤怠に関するメソッド
@@ -32,16 +33,6 @@ class AttendanceService
     {
         $this->attendance = $attendance;
     }
-
-    /**
-     * 現在時間の取得
-     *
-     * @return string
-     */
-    public function getNowDate()
-    {
-        return Carbon::now()->format('Y-m-d');
-    }
     
     /**
      * ログイン中のユーザーの今日の勤怠管理を取得
@@ -51,7 +42,7 @@ class AttendanceService
      */
     public function getTodayAttendance($userId)
     {
-        $d = $this->getNowDate();
+        $d = Carbon::now()->format(DAILY_FORMAT);
         return $this->attendance->where('date', $d)->where('user_id', $userId)->first();
     }
 
@@ -75,7 +66,7 @@ class AttendanceService
      */
     public function registerStartTime($attributes)
     {
-        $attributes['date'] = $this->getNowDate();
+        $attributes['date'] = Carbon::now()->format(DAILY_FORMAT);
         $this->attendance->create(
             [
                 'start_time' => $attributes['start_time'],
@@ -107,7 +98,7 @@ class AttendanceService
      */
     public function registerAbsence($attributes)
     {
-        $attributes['date'] = $this->getNowDate();
+        $attributes['date'] = Carbon::now()->format(DAILY_FORMAT);
         $this->attendance->updateOrCreate(
             ['user_id' => $attributes['user_id'], 'date' => $attributes['date']], $attributes
         );
@@ -147,7 +138,7 @@ class AttendanceService
             $diffTime = $attendance->start_time->diffInMinutes($attendance->end_time);
             $totalLearningTime += $diffTime;
         };
-        return $totalLearningTime = round($totalLearningTime / HOURS_TO_MINUTES);
+        return $totalLearningTime = round($totalLearningTime / MINUTES_TO_HOURS);
     }
     
     /**
