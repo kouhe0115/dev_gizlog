@@ -39,7 +39,7 @@ Route::group(['prefix' => '/', 'user.', 'namespace' => 'User'], function () {
     Route::resource('question', QuestionController::class);
     
     Route::get('attendance', 'AttendanceController@index')->name('attendance');
-    Route::get('attendance/{id}/mypage', 'AttendanceController@mypage')->name('attendance.mypage');
+    Route::get('attendance/mypage', 'AttendanceController@mypage')->name('attendance.mypage');
     Route::post('attendance', 'AttendanceController@setStartTime')->name('attendance.setStartTime');
     Route::put('attendance/{id}', 'AttendanceController@setEndTime')->name('attendance.setEndTime');
     Route::get('attendance/absence', 'AttendanceController@showAbsence')->name('attendance.showAbsence');

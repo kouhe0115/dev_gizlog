@@ -32,7 +32,7 @@
         <a class="at-btn modify" href="/attendance/modify">修正申請</a>
       </li>
       <li>
-        <a class="at-btn my-list" href="{{ route('attendance.mypage', Auth::id()) }}">マイページ</a>
+        <a class="at-btn my-list" href="{{ route('attendance.mypage') }}">マイページ</a>
       </li>
     </ul>
   </div>

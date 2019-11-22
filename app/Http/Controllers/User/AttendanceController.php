@@ -41,7 +41,7 @@ class AttendanceController extends Controller
      */
     public function setStartTime(AttendanceRequest $request)
     {
-        $inputs = $request->validated();
+        $inputs = $request->all();
         $inputs['user_id'] = Auth::id();
         $this->attendanceService->registerStartTime($inputs);
         return redirect()->route('attendance');
@@ -56,7 +56,7 @@ class AttendanceController extends Controller
      */
     public function setEndTime(AttendanceRequest $request, $id)
     {
-        $inputs = $request->validated();
+        $inputs = $request->all();
         $this->attendanceService->registerEndTime($inputs, $id);
         return redirect()->route('attendance');
     }
@@ -116,8 +116,9 @@ class AttendanceController extends Controller
      * @param $userId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function mypage($userId)
+    public function mypage()
     {
+        $userId = Auth::id();
         $attendances = $this->attendanceService->getByUserId($userId);
         $attendancesCount = $this->attendanceService->getAttendancesCount($attendances);
         $totalLearningTime = $this->attendanceService->getTotalLearningTime($attendances);
