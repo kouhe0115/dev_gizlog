@@ -1,11 +1,23 @@
 <?php
+
 namespace App\Service;
 
 use App\Models\Attendance;
 use Carbon\Carbon;
 
+/**
+ * 勤怠に関するメソッド
+ *
+ * Class AttendanceService
+ * @package App\Service
+ */
 class AttendanceService
 {
+    /**
+     * Attendanceインスタンス
+     *
+     * @var Attendance
+     */
     private $attendance;
 
     /**
@@ -59,7 +71,7 @@ class AttendanceService
      *
      * @param $attributes
      */
-    public function setStartTime($attributes)
+    public function registerStartTime($attributes)
     {
         $attributes['date'] = $this->getNowDate();
 //        $this->attendance->fill($attributes)->save();
@@ -78,7 +90,7 @@ class AttendanceService
      * @param $attributes
      * @param $id
      */
-    public function setEndTime($attributes, $id)
+    public function registerEndTime($attributes, $id)
     {
 //        $this->attendance->find($id)->fill($attributes)->save();
         $this->attendance->find($id)->update(
@@ -93,7 +105,7 @@ class AttendanceService
      *
      * @param $attributes
      */
-    public function setAbsence($attributes)
+    public function registerAbsence($attributes)
     {
         $attributes['date'] = $this->getNowDate();
         $this->attendance->updateOrCreate(
@@ -106,7 +118,7 @@ class AttendanceService
      *
      * @param $attributes
      */
-    public function setRequest($attributes)
+    public function registerRequest($attributes)
     {
         $this->attendance->where('user_id', $attributes['user_id'])
                          ->where('date', $attributes['searchDate'])

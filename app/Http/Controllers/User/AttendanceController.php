@@ -43,7 +43,7 @@ class AttendanceController extends Controller
     {
         $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
-        $this->attendanceService->setStartTime($inputs);
+        $this->attendanceService->registerStartTime($inputs);
         return redirect()->route('attendance');
     }
     
@@ -57,7 +57,7 @@ class AttendanceController extends Controller
     public function setEndAbsent(AttendanceRequest $request, $id)
     {
         $inputs = $request->validated();
-        $this->attendanceService->setEndTime($inputs, $id);
+        $this->attendanceService->registerEndTime($inputs, $id);
         return redirect()->route('attendance');
     }
 
@@ -82,7 +82,7 @@ class AttendanceController extends Controller
         $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
         $inputs['absent_flg'] = 1;
-        $this->attendanceService->setAbsence($inputs);
+        $this->attendanceService->registerAbsence($inputs);
         return redirect()->route('attendance');
     }
 
@@ -106,7 +106,7 @@ class AttendanceController extends Controller
     {
         $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
-        $this->attendanceService->setRequest($inputs);
+        $this->attendanceService->registerRequest($inputs);
         return redirect()->route('attendance');
     }
 
