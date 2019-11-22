@@ -62,7 +62,14 @@ class AttendanceService
     public function setStartTime($attributes)
     {
         $attributes['date'] = $this->getNowDate();
-        $this->attendance->fill($attributes)->save();
+//        $this->attendance->fill($attributes)->save();
+        $this->attendance->create(
+            [
+                'start_time' => $attributes['start_time'],
+                'date' => $attributes['date'],
+                'user_id' => $attributes['user_id'],
+            ]
+        );
     }
 
     /**
@@ -73,7 +80,12 @@ class AttendanceService
      */
     public function setEndTime($attributes, $id)
     {
-        $this->attendance->find($id)->fill($attributes)->save();
+//        $this->attendance->find($id)->fill($attributes)->save();
+        $this->attendance->find($id)->update(
+            [
+                'end_time' => $attributes['end_time'],
+            ]
+        );
     }
 
     /**
@@ -98,7 +110,11 @@ class AttendanceService
     {
         $this->attendance->where('user_id', $attributes['user_id'])
                          ->where('date', $attributes['searchDate'])
-                         ->first()->fill($attributes)->save();
+//                         ->first()->fill($attributes)->save();
+                         ->first()->update(
+                            [
+                                'request_content' => $attributes['request_content']
+                            ]);
     }
 
     /**
