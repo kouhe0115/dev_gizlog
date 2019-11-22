@@ -45,6 +45,31 @@ class AttendanceService
         $d = Carbon::now()->format(DAILY_FORMAT);
         return $this->attendance->where('date', $d)->where('user_id', $userId)->first();
     }
+    
+    /**
+     * ログイン中のユーザーの今日の勤怠の状態を取得
+     *
+     * @param $attendance
+     * @return string
+     */
+    public function attendanceStatus($attendance)
+    {
+        if (isset($attendance->absent_flg) && $attendance->absent_flg === 1) {
+            return $status = 'absent';
+        }
+        
+        if (empty($attendance->start_time) && empty($attendance->end_time)) {
+            return $status = 'setStartTime';
+        }
+        
+        if (!empty($attendance->start_time) && !empty($attendance->end_time)) {
+            return $status = 'leaving';
+        }
+        
+        if (!empty($attendance->start_time) && empty($attendance->end_time)) {
+            return $status = 'setEndTime';
+        }
+    }
 
     /**
      * ログイン中のユーザーの勤怠管理の取得

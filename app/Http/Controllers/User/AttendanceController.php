@@ -30,7 +30,8 @@ class AttendanceController extends Controller
     {
         $userId = Auth::id();
         $attendance = $this->attendanceService->getTodayAttendance($userId);
-        return view('user.attendance.index', compact('attendance'));
+        $status = $this->attendanceService->attendanceStatus($attendance);
+        return view('user.attendance.index', compact('attendance', 'status'));
     }
     
     /**
