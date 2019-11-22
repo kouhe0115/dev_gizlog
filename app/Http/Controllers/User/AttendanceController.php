@@ -39,7 +39,7 @@ class AttendanceController extends Controller
      * @param AttendanceRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setStartAbsent(AttendanceRequest $request)
+    public function setStartTime(AttendanceRequest $request)
     {
         $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
@@ -54,7 +54,7 @@ class AttendanceController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setEndAbsent(AttendanceRequest $request, $id)
+    public function setEndTime(AttendanceRequest $request, $id)
     {
         $inputs = $request->validated();
         $this->attendanceService->registerEndTime($inputs, $id);

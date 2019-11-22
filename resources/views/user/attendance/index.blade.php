@@ -42,10 +42,10 @@
       <div class="register-text-wrap"><p>{{ Carbon::now() }}</p></div>
       <div class="register-btn-wrap">
         @if (empty($attendance->start_time))
-          {!! Form::open(['route' => ['attendance.setStartAbsent']]) !!}
+          {!! Form::open(['route' => ['attendance.setStartTime']]) !!}
           {!! Form::hidden('start_time', null, ['id' => 'date-time-target']) !!}
         @elseif (!empty($attendance->start_time) && empty($attendance->end_time))
-          {!! Form::open(['route' => ['attendance.setEndAbsent', $attendance->id], 'method' => 'PUT']) !!}
+          {!! Form::open(['route' => ['attendance.setEndTime', $attendance->id], 'method' => 'PUT']) !!}
           {!! Form::hidden('end_time', null, ['id' => 'date-time-target']) !!}
         @endif
         <a href="#close" class="cancel-btn">Cancel</a>
