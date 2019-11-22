@@ -146,19 +146,16 @@ class AttendanceService
         };
         return $totalLearningTime = round($totalLearningTime / 60);
     }
-
+    
     /**
      * 出勤日数の取得
      *
-     * @param $userId
+     * @param $attendances
      * @return mixed
      */
-    public function getAttendancesCount($userId)
+    public function getAttendancesCount($attendances)
     {
-        return $this->attendance
-                    ->where('user_id', $userId)
-                    ->where('absent_flg', 0)
-                    ->get()
-                    ->count();
+        return $attendances->where('absent_flg', 0)
+                            ->count();
     }
 }
