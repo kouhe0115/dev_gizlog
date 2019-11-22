@@ -74,7 +74,6 @@ class AttendanceService
     public function registerStartTime($attributes)
     {
         $attributes['date'] = $this->getNowDate();
-//        $this->attendance->fill($attributes)->save();
         $this->attendance->create(
             [
                 'start_time' => $attributes['start_time'],
@@ -92,7 +91,6 @@ class AttendanceService
      */
     public function registerEndTime($attributes, $id)
     {
-//        $this->attendance->find($id)->fill($attributes)->save();
         $this->attendance->find($id)->update(
             [
                 'end_time' => $attributes['end_time'],
@@ -122,7 +120,6 @@ class AttendanceService
     {
         $this->attendance->where('user_id', $attributes['user_id'])
                          ->where('date', $attributes['searchDate'])
-//                         ->first()->fill($attributes)->save();
                          ->first()->update(
                             [
                                 'request_content' => $attributes['request_content']
