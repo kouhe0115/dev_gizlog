@@ -123,9 +123,11 @@ class AttendanceService
      */
     public function registerAbsence($attributes)
     {
-        $attributes['date'] = Carbon::now()->format(DAILY_FORMAT);
         $this->attendance->updateOrCreate(
-            ['user_id' => $attributes['user_id'], 'date' => $attributes['date']], $attributes
+            [
+                'user_id' => $attributes['user_id'],
+                'date' => Carbon::now()->format(DAILY_FORMAT)
+            ], $attributes
         );
     }
 
