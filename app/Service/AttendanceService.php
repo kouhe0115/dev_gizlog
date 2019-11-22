@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Models\Attendance;
 use Carbon\Carbon;
 
+const HOURS_TO_MINUTES = 60;
+
 /**
  * 勤怠に関するメソッド
  *
@@ -125,26 +127,27 @@ class AttendanceService
                                 'request_content' => $attributes['request_content']
                             ]);
     }
-
+    
     /**
-     *学習時間の合計を取得
+     * 学習時間の合計を取得
      *
-     * @param $userId
+     * @param $attendances
      * @return float
      */
-    public function getTotalLearningTime($userId)
+    public function getTotalLearningTime($attendances)
     {
-        $attendancesTime = $this->attendance
-                                ->where('user_id', $userId)
-                                ->whereNotNull('start_time')
-                                ->whereNotNull('end_time')
-                                ->get();
+        $attendancesTime = $attendances->filter(
+            function ($v) {
+                return ($v['start_time'] !== NULL && $v['end_time'] !== NULL);
+            }
+        );
+
         $totalLearningTime = 0;
         foreach ($attendancesTime as $attendance) {
             $diffTime = $attendance->start_time->diffInMinutes($attendance->end_time);
             $totalLearningTime += $diffTime;
         };
-        return $totalLearningTime = round($totalLearningTime / 60);
+        return $totalLearningTime = round($totalLearningTime / HOURS_TO_MINUTES);
     }
     
     /**

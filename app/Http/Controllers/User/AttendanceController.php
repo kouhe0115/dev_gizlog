@@ -120,7 +120,7 @@ class AttendanceController extends Controller
     {
         $attendances = $this->attendanceService->getByUserId($userId);
         $attendancesCount = $this->attendanceService->getAttendancesCount($attendances);
-        $totalLearningTime = $this->attendanceService->getTotalLearningTime($userId);
+        $totalLearningTime = $this->attendanceService->getTotalLearningTime($attendances);
         return view('user.attendance.mypage',
             compact('attendances', 'attendancesCount', 'totalLearningTime'));
     }
