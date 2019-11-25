@@ -130,20 +130,22 @@ class AttendanceService
             ], $attributes
         );
     }
-
+    
     /**
      * 修正申請を登録
      *
      * @param $attributes
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function registerRequest($attributes)
     {
-        $this->attendance->where('user_id', $attributes['user_id'])
-                         ->where('date', $attributes['searchDate'])
-                         ->first()->update(
-                            [
-                                'request_content' => $attributes['request_content']
-                            ]);
+         $this->attendance->where('user_id', $attributes['user_id'])
+                          ->where('date', $attributes['searchDate'])
+                          ->first()
+                          ->update(
+                         [
+                             'request_content' => $attributes['request_content']
+                         ]);
     }
     
     /**
