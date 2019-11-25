@@ -141,6 +141,7 @@ class AttendanceService
     {
          $this->attendance->where('user_id', $attributes['user_id'])
                           ->where('date', $attributes['searchDate'])
+                          ->firstOrFail()
                           ->first()
                           ->update(
                          [
