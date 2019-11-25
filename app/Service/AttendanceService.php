@@ -77,7 +77,7 @@ class AttendanceService
      * @param $userId
      * @return mixed
      */
-    public function getByUserId($userId)
+    public function fetchByUserId($userId)
     {
         return $this->attendance->where('user_id', $userId)
                                 ->orderBy('date','desc')
@@ -152,7 +152,7 @@ class AttendanceService
      * @param $attendances
      * @return float
      */
-    public function getTotalLearningTime($attendances)
+    public function fetchTotalLearningTime($attendances)
     {
         $attendancesTime = $attendances->filter(
             function ($v) {
@@ -174,7 +174,7 @@ class AttendanceService
      * @param $attendances
      * @return mixed
      */
-    public function getAttendancesCount($attendances)
+    public function fetchAttendancesCount($attendances)
     {
         return $attendances->where('absent_flg', 0)
                             ->count();

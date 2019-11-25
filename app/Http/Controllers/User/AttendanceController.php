@@ -123,9 +123,9 @@ class AttendanceController extends Controller
     public function mypage()
     {
         $userId = Auth::id();
-        $attendances = $this->attendanceService->getByUserId($userId);
-        $attendancesCount = $this->attendanceService->getAttendancesCount($attendances);
-        $totalLearningTime = $this->attendanceService->getTotalLearningTime($attendances);
+        $attendances = $this->attendanceService->fetchByUserId($userId);
+        $attendancesCount = $this->attendanceService->fetchAttendancesCount($attendances);
+        $totalLearningTime = $this->attendanceService->fetchTotalLearningTime($attendances);
         return view('user.attendance.mypage',
             compact('attendances', 'attendancesCount', 'totalLearningTime'));
     }
