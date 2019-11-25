@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\AttendanceAbsenceRequest;
+use App\Http\Requests\User\AttendanceModifyRequest;
+use App\Http\Requests\User\AttendanceTimeRequest;
 use App\Service\AttendanceService;
 use App\Http\Requests\User\AttendanceRequest;
 use Auth;
@@ -37,12 +40,12 @@ class AttendanceController extends Controller
     /**
      * 出勤時間の登録
      *
-     * @param AttendanceRequest $request
+     * @param AttendanceTimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setStartTime(AttendanceRequest $request)
+    public function setStartTime(AttendanceTimeRequest $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
         $this->attendanceService->registerStartTime($inputs);
         return redirect()->route('attendance');
@@ -51,13 +54,13 @@ class AttendanceController extends Controller
     /**
      * 退勤時間の登録
      *
-     * @param AttendanceRequest $request
+     * @param AttendanceTimeRequest $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setEndTime(AttendanceRequest $request, $id)
+    public function setEndTime(AttendanceTimeRequest $request, $id)
     {
-        $inputs = $request->all();
+        $inputs = $request->validated();
         $this->attendanceService->registerEndTime($inputs, $id);
         return redirect()->route('attendance');
     }
@@ -75,10 +78,10 @@ class AttendanceController extends Controller
     /**
      * 欠席、理由の登録
      *
-     * @param AttendanceRequest $request
+     * @param AttendanceAbsenceRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setAbsence(AttendanceRequest $request)
+    public function setAbsence(AttendanceAbsenceRequest $request)
     {
         $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
@@ -100,10 +103,10 @@ class AttendanceController extends Controller
     /**
      * 修正申請の登録
      *
-     * @param AttendanceRequest $request
+     * @param AttendanceModifyRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function createModify(AttendanceRequest $request)
+    public function createModify(AttendanceModifyRequest $request)
     {
         $inputs = $request->validated();
         $inputs['user_id'] = Auth::id();
