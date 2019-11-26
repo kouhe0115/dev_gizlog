@@ -54,7 +54,7 @@ class AttendanceService
      */
     public function attendanceStatus($attendance)
     {
-        if (isset($attendance->absent_flg) && $attendance->absent_flg === 1) {
+        if ($attendance->is_absent) {
             return $status = 'absent';
         }
         
@@ -92,13 +92,7 @@ class AttendanceService
     public function registerStartTime($attributes)
     {
         $attributes['date'] = Carbon::now()->format(DAILY_FORMAT);
-        $this->attendance->create(
-            [
-                'start_time' => $attributes['start_time'],
-                'date' => $attributes['date'],
-                'user_id' => $attributes['user_id'],
-            ]
-        );
+        $this->attendance->create($attributes);
     }
 
     /**
@@ -109,11 +103,7 @@ class AttendanceService
      */
     public function registerEndTime($attributes, $id)
     {
-        $this->attendance->find($id)->update(
-            [
-                'end_time' => $attributes['end_time'],
-            ]
-        );
+        $this->attendance->find($id)->update($attributes);
     }
 
     /**
@@ -125,7 +115,6 @@ class AttendanceService
     {
         $this->attendance->updateOrCreate(
             [
-                'user_id' => $attributes['user_id'],
                 'date' => Carbon::now()->format(DAILY_FORMAT)
             ], $attributes
         );
@@ -143,10 +132,7 @@ class AttendanceService
                           ->where('date', $attributes['searchDate'])
                           ->firstOrFail()
                           ->first()
-                          ->update(
-                         [
-                             'request_content' => $attributes['request_content']
-                         ]);
+                          ->update($attributes);
     }
     
     /**
@@ -155,18 +141,12 @@ class AttendanceService
      * @param $attendances
      * @return float
      */
-    public function fetchTotalLearningTime($attendances)
+    public function attndanceTotalLearningTime($attendances)
     {
-        $attendancesTime = $attendances->filter(
-            function ($v) {
-                return ($v['start_time'] !== NULL && $v['end_time'] !== NULL);
-            }
-        );
-
         $totalLearningTime = 0;
-        foreach ($attendancesTime as $attendance) {
-            $diffTime = $attendance->start_time->diffInMinutes($attendance->end_time);
-            $totalLearningTime += $diffTime;
+        /** @var Attendance $attendance */
+        foreach ($attendances as $attendance) {
+            $totalLearningTime += $attendance->calcLearningTime();
         };
         return $totalLearningTime = round($totalLearningTime / MINUTES_TO_HOURS);
     }
@@ -177,9 +157,9 @@ class AttendanceService
      * @param $attendances
      * @return mixed
      */
-    public function fetchAttendancesCount($attendances)
+    public function attendancesCount($attendances)
     {
-        return $attendances->where('absent_flg', 0)
+        return $attendances->where('is_absent', false)
                             ->count();
     }
 }
