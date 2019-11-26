@@ -33,11 +33,11 @@
       </thead>
       <tbody>
         @foreach ($attendances as $attendance)
-      <tr class="row {{ $attendance->absent_flg === 1 ? 'absent-row' : '' }}">
+      <tr class="row {{ $attendance->is_absent ? 'absent-row' : '' }}">
           <td class="col-xs-2">{{ $attendance->date->format('Y-m-d') ?? '-' }}</td>
           <td class="col-xs-3">{{ $attendance->start_time ?? '-'}}  </td>
           <td class="col-xs-3">{{ $attendance->end_time ?? '-' }}</td>
-          <td class="col-xs-2">@if($attendance->absent_flg == 1) 欠席 @elseif(is_null($attendance->end_time)) 研修中 @elseif($attendance->absent_flg == 0) 出社 @endif</td>
+          <td class="col-xs-2">@if($attendance->is_absent) 欠席 @elseif(is_null($attendance->end_time)) 研修中 @elseif(!$attendance->is_absent) 出社 @endif</td>
           <td class="col-xs-2">{{ $attendance->request_content ? '申請中' : '-' }}</td>
       </tr>
         @endforeach
