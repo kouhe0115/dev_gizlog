@@ -24,8 +24,19 @@ class AttendanceTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_time'      => 'sometimes|before:now',
-            'end_time'        => 'sometimes|before:now',
+            'start_time'      => 'sometimes|date|before:now',
+            'end_time'        => 'sometimes|date|before:now',
         ];
+    }
+    
+    
+    public function AttendanceStartTimeRequest()
+    {
+        return $this->only('start_time', 'date');
+    }
+    
+    public function AttendanceEndTimeRequest()
+    {
+        return $this->only('end_time');
     }
 }

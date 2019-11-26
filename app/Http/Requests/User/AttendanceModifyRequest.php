@@ -25,8 +25,13 @@ class AttendanceModifyRequest extends FormRequest
     {
         return [
             'request_content' => 'required|max:500',
-            'searchDate'      => 'required|before:now',
+            'searchDate'      => 'required|date|before:now',
         ];
+    }
+    
+    public function ModifyRequest()
+    {
+        return $this->only('request_content', 'searchDate');
     }
 
     public function messages()

@@ -28,6 +28,11 @@ class AttendanceAbsenceRequest extends FormRequest
         ];
     }
     
+    public function AbsentRequest()
+    {
+        return $this->only('absent_reason');
+    }
+    
     public function messages()
     {
         return [

@@ -7,7 +7,6 @@ use App\Http\Requests\User\AttendanceAbsenceRequest;
 use App\Http\Requests\User\AttendanceModifyRequest;
 use App\Http\Requests\User\AttendanceTimeRequest;
 use App\Service\AttendanceService;
-use App\Http\Requests\User\AttendanceRequest;
 use Auth;
 
 class AttendanceController extends Controller
@@ -20,7 +19,6 @@ class AttendanceController extends Controller
      */
     public function __construct(AttendanceService $attendanceService)
     {
-        $this->middleware('auth');
         $this->attendanceService = $attendanceService;
     }
 
@@ -45,7 +43,7 @@ class AttendanceController extends Controller
      */
     public function setStartTime(AttendanceTimeRequest $request)
     {
-        $inputs = $request->validated();
+        $inputs = $request->AttendanceStartTimeRequest();
         $inputs['user_id'] = Auth::id();
         $this->attendanceService->registerStartTime($inputs);
         return redirect()->route('attendance');
@@ -60,7 +58,7 @@ class AttendanceController extends Controller
      */
     public function setEndTime(AttendanceTimeRequest $request, $id)
     {
-        $inputs = $request->validated();
+        $inputs = $request->AttendanceEndTimeRequest();
         $this->attendanceService->registerEndTime($inputs, $id);
         return redirect()->route('attendance');
     }
@@ -83,9 +81,9 @@ class AttendanceController extends Controller
      */
     public function setAbsence(AttendanceAbsenceRequest $request)
     {
-        $inputs = $request->validated();
+        $inputs = $request->AbsentRequest();
         $inputs['user_id'] = Auth::id();
-        $inputs['absent_flg'] = 1;
+        $inputs['is_absent'] = true;
         $this->attendanceService->registerAbsence($inputs);
         return redirect()->route('attendance');
     }
@@ -108,7 +106,7 @@ class AttendanceController extends Controller
      */
     public function createModify(AttendanceModifyRequest $request)
     {
-        $inputs = $request->validated();
+        $inputs = $request->ModifyRequest();
         $inputs['user_id'] = Auth::id();
         $this->attendanceService->registerRequest($inputs);
         return redirect()->route('attendance');
@@ -124,8 +122,8 @@ class AttendanceController extends Controller
     {
         $userId = Auth::id();
         $attendances = $this->attendanceService->fetchByUserId($userId);
-        $attendancesCount = $this->attendanceService->fetchAttendancesCount($attendances);
-        $totalLearningTime = $this->attendanceService->fetchTotalLearningTime($attendances);
+        $attendancesCount = $this->attendanceService->attendancesCount($attendances);
+        $totalLearningTime = $this->attendanceService->attndanceTotalLearningTime($attendances);
         return view('user.attendance.mypage',
             compact('attendances', 'attendancesCount', 'totalLearningTime'));
     }
