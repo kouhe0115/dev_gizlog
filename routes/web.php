@@ -11,7 +11,7 @@
 |
  */
 
-Route::group(['prefix' => '/', 'user.', 'namespace' => 'User'], function () {
+Route::group(['prefix' => '/', 'user.', 'namespace' => 'User', 'middleware' => 'auth'], function () {
     Auth::routes();
 
     Route::get('/', function () {
