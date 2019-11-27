@@ -2,7 +2,7 @@
 @section ('content')
   
   <h2 class="brand-header">勤怠登録</h2>
-
+  
   <div class="main-wrap">
     <div id="clock" class="light">
       <div class="display">
@@ -11,7 +11,7 @@
         <div class="digits"></div>
       </div>
     </div>
-
+    
     <div class="button-holder">
       @if($status === 'absent')
         <a class="button disabled">欠席</a>
@@ -23,7 +23,7 @@
         <a class="button end-btn" id="register-attendance" href=#openModal>退社時間登録</a>
       @endif
     </div>
-
+    
     <ul class="button-wrap">
       <li>
         <a class="at-btn absence" href="/attendance/absence">欠席登録</a>
@@ -36,7 +36,7 @@
       </li>
     </ul>
   </div>
-
+  
   <div id="openModal" class="modalDialog">
     <div>
       <div class="register-text-wrap"><p>{{ Carbon::now() }}</p></div>
