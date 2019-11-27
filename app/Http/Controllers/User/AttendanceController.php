@@ -12,7 +12,7 @@ use Auth;
 class AttendanceController extends Controller
 {
     private $attendanceService;
-
+    
     /**
      * AttendanceController constructor.
      * @param AttendanceService $attendanceService
@@ -22,7 +22,7 @@ class AttendanceController extends Controller
         $this->middleware('auth');
         $this->attendanceService = $attendanceService;
     }
-
+    
     /**
      * 勤怠管理画面の表示
      *
@@ -63,7 +63,7 @@ class AttendanceController extends Controller
         $this->attendanceService->registerEndTime($inputs, $id);
         return redirect()->route('attendance');
     }
-
+    
     /**
      * 欠席理由画面の表示
      *
@@ -88,7 +88,7 @@ class AttendanceController extends Controller
         $this->attendanceService->registerAbsence($inputs);
         return redirect()->route('attendance');
     }
-
+    
     /**
      * 勤怠修正申請画面表示
      *
@@ -112,7 +112,7 @@ class AttendanceController extends Controller
         $this->attendanceService->registerRequest($inputs);
         return redirect()->route('attendance');
     }
-
+    
     /**
      * ログイン中のユーザーの勤怠記録の表示
      *

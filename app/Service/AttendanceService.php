@@ -22,7 +22,7 @@ class AttendanceService
      * @var Attendance
      */
     private $attendance;
-
+    
     /**
      * コンストラクター
      *
@@ -70,7 +70,7 @@ class AttendanceService
             return $status = 'setEndTime';
         }
     }
-
+    
     /**
      * ログイン中のユーザーの勤怠管理の取得
      *
@@ -80,10 +80,10 @@ class AttendanceService
     public function fetchByUserId($userId)
     {
         return $this->attendance->where('user_id', $userId)
-                                ->orderBy('date','desc')
-                                ->get();
+            ->orderBy('date', 'desc')
+            ->get();
     }
-
+    
     /**
      * 出勤時間の登録
      *
@@ -94,7 +94,7 @@ class AttendanceService
         $attributes['date'] = Carbon::now()->format(DAILY_FORMAT);
         $this->attendance->create($attributes);
     }
-
+    
     /**
      * 退勤時間の登録
      *
@@ -105,7 +105,7 @@ class AttendanceService
     {
         $this->attendance->find($id)->update($attributes);
     }
-
+    
     /**
      * 欠席、理由の登録
      *
@@ -113,8 +113,7 @@ class AttendanceService
      */
     public function registerAbsence($attributes)
     {
-        $this->attendance->updateOrCreate(
-            [
+        $this->attendance->updateOrCreate([
                 'date' => Carbon::now()->format(DAILY_FORMAT)
             ], $attributes
         );
@@ -128,11 +127,11 @@ class AttendanceService
      */
     public function registerRequest($attributes)
     {
-         $this->attendance->where('user_id', $attributes['user_id'])
-                          ->where('date', $attributes['searchDate'])
-                          ->firstOrFail()
-                          ->first()
-                          ->update($attributes);
+        $this->attendance->where('user_id', $attributes['user_id'])
+            ->where('date', $attributes['searchDate'])
+            ->firstOrFail()
+            ->first()
+            ->update($attributes);
     }
     
     /**
@@ -160,6 +159,6 @@ class AttendanceService
     public function attendancesCount($attendances)
     {
         return $attendances->where('is_absent', false)
-                            ->count();
+            ->count();
     }
 }
