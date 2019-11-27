@@ -54,7 +54,7 @@ class AttendanceService
      */
     public function attendanceStatus($attendance)
     {
-        if ($attendance->is_absent) {
+        if (isset($attendance->is_absent)) {
             return $status = 'absent';
         }
         
@@ -141,7 +141,7 @@ class AttendanceService
      * @param $attendances
      * @return float
      */
-    public function attndanceTotalLearningTime($attendances)
+    public function attendanceTotalLearningTime($attendances)
     {
         $totalLearningTime = 0;
         /** @var Attendance $attendance */

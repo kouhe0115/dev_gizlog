@@ -32,7 +32,7 @@ class AttendanceTimeRequest extends FormRequest
     
     public function AttendanceStartTimeRequest()
     {
-        return $this->only('start_time', 'date');
+        return $this->only('start_time');
     }
     
     public function AttendanceEndTimeRequest()

@@ -19,6 +19,7 @@ class AttendanceController extends Controller
      */
     public function __construct(AttendanceService $attendanceService)
     {
+        $this->middleware('auth');
         $this->attendanceService = $attendanceService;
     }
 
@@ -123,7 +124,7 @@ class AttendanceController extends Controller
         $userId = Auth::id();
         $attendances = $this->attendanceService->fetchByUserId($userId);
         $attendancesCount = $this->attendanceService->attendancesCount($attendances);
-        $totalLearningTime = $this->attendanceService->attndanceTotalLearningTime($attendances);
+        $totalLearningTime = $this->attendanceService->attendanceTotalLearningTime($attendances);
         return view('user.attendance.mypage',
             compact('attendances', 'attendancesCount', 'totalLearningTime'));
     }
