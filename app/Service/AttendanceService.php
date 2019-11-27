@@ -54,7 +54,7 @@ class AttendanceService
      */
     public function attendanceStatus($attendance)
     {
-        if (isset($attendance->is_absent)) {
+        if (!empty($attendance->is_absent)) {
             return $status = 'absent';
         }
         
