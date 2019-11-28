@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Models\Attendance;
 use Carbon\Carbon;
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 
 const MINUTES_TO_HOURS = 60;
 const DAILY_FORMAT = 'Y-m-d';
@@ -17,13 +18,6 @@ const DAILY_FORMAT = 'Y-m-d';
 class AttendanceService
 {
     /**
-     * Attendanceインスタンス
-     *
-     * @var Attendance
-     */
-    private $attendance;
-    
-    /**
      * コンストラクター
      *
      * Attendance $attendance
@@ -33,6 +27,13 @@ class AttendanceService
     {
         $this->attendance = $attendance;
     }
+    
+    /**
+     * Attendanceインスタンス
+     *
+     * @var Attendance
+     */
+    private $attendance;
     
     /**
      * ログイン中のユーザーの今日の勤怠管理を取得
@@ -70,6 +71,7 @@ class AttendanceService
             return $status = 'setEndTime';
         }
     }
+    
     
     /**
      * ログイン中のユーザーの勤怠管理の取得
@@ -114,6 +116,7 @@ class AttendanceService
     public function registerAbsence($attributes)
     {
         $this->attendance->updateOrCreate([
+                'user_id' => $attributes['user_id'],
                 'date' => Carbon::now()->format(DAILY_FORMAT)
             ], $attributes
         );
