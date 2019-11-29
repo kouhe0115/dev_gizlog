@@ -1,57 +1,61 @@
 @extends ('common.admin')
 @section ('content')
-
-<h2 class="brand-header">個別勤怠編集</h2>
-<div class="main-wrap">
-  <div class="user-info-box clearfix">
-    <div class="left-info">
-      <img src="https://avatars.slack-edge.com/2019-01-25/532734044915_486bec3294a9f7b34291_192.png"><p class="user-name">Shohei Kanatani</p>
-      <i class="fa fa-envelope-o" aria-hidden="true"><p class="user-email">gizumo@test.com</p></i>
-    </div>
-    <div class="right-info">
-      <div class="my-info day-info">
-        <p>編集日</p>
-        <div class="study-hour-box clearfix">
-          <div class="userinfo-box"><i class="fa fa-calendar fa-2x" aria-hidden="true"></i></div>
-          <p class="study-hour study-date"><span>07/03</span></p>
+  
+  <h2 class="brand-header">個別勤怠編集</h2>
+  <div class="main-wrap">
+    <div class="user-info-box clearfix">
+      <div class="left-info">
+        <img src="{{ $userInfos->avatar }}">
+        <p class="user-name">{{ $userInfos->name }}</p>
+        <i class="fa fa-envelope-o" aria-hidden="true"><p class="user-email">{{ $userInfos->email }}</p></i>
+      </div>
+      <div class="right-info">
+        <div class="my-info day-info">
+          <p>編集日</p>
+          <div class="study-hour-box clearfix">
+            <div class="userinfo-box"><i class="fa fa-calendar fa-2x" aria-hidden="true"></i></div>
+            <p class="study-hour study-date"><span>{{ $userInfos->attendance->date->format('m/d') }}</span></p>
+          </div>
+        </div>
+        <div class="my-info">
+          <p>研修開始日</p>
+          <div class="study-hour-box clearfix">
+            <p class="study-hour study-date"><span>{{ $userInfos->created_at->format('Y/m/d') }}</span></p>
+          </div>
         </div>
       </div>
-      <div class="my-info">
-        <p>研修開始日</p>
-        <div class="study-hour-box clearfix">
-          <p class="study-hour study-date"><span>2019/07/02</span></p>
+    </div>
+    @if ($userInfos->attendance->request_content)
+      <div class="request-box">
+        <div class="request-title">
+          <img src="{{ $userInfos->avatar }}"
+               class="avatar-img">
+          <p>修正申請内容</p>
         </div>
+        <div class="request-content">
+          {{ $userInfos->attendance->request_content }}
+        </div>
+        @endif
       </div>
-    </div>
-  </div>
-  <div class="request-box">
-    <div class="request-title">
-      <img src="https://avatars.slack-edge.com/2019-01-25/532734044915_486bec3294a9f7b34291_192.png" class="avatar-img">
-      <p>修正申請内容</p>
-    </div>
-    <div class="request-content">
-      申し訳ありません。出社の打刻を忘れてしまいました。
-      9:55に出社いたしましたので修正お願いします。
-    </div>
-  </div>
-  <div class="attendance-modify-box">
-    <form>
-      <div class="form-group">
-        <input class="form-control" name="" type="time" value="10:56">
-        <span class="help-block"></span>
+      <div class="attendance-modify-box">
+        {!! Form::open(['route' => ['admin.attendance.update', $userInfos->attendance->id], 'method' => 'PUT']) !!}
+          <div class="form-group">
+            {!! Form::input('time', 'start_time', $userInfos->attendance->start_time->format('H:i'), ['class' => 'form-control']) !!}
+            <span class="help-block"></span>
+          </div>
+          <p class="to-time">to</p>
+          <div class="form-group">
+            {!! Form::input('time', 'end_time', $userInfos->attendance->end_time->format('H:i'), ['class' => 'form-control']) !!}
+            <span class="help-block"></span>
+          </div>
+          {!! Form::button('修正',  ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
+        {!! Form::close() !!}
+        
+        {!! Form::open(['route' => ['admin.attendance.update', $userInfos->attendance->id], 'method' => 'PUT']) !!}
+          {!! Form::button('欠席', ['type' => 'submit', 'class' => "btn btn-danger"]) !!}
+        {!! Form::close() !!}
       </div>
-      <p class="to-time">to</p>
-      <div class="form-group">
-        <input class="form-control" name="end_time" type="time" value="19:26">
-        <span class="help-block"></span>
-      </div>
-      <button type="submit" class="btn btn-modify">修正</button>
-    </form>
-    <form>
-      <button type="submit" class="btn btn-danger">欠席</button>
-    </form>
   </div>
-</div>
 
 @endsection
 
