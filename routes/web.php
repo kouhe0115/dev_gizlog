@@ -62,6 +62,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], fu
     Route::get('attendance/{id}/user/create', 'AttendanceController@create')->name('attendance.create');
     Route::get('attendance/{id}/user/edit/{date}', 'AttendanceController@edit')->name('attendance.edit');
     Route::put('attendance/{id}/user', 'AttendanceController@update')->name('attendance.update');
+    Route::put('attendance/{id}/user/delete', 'AttendanceController@delete')->name('attendance.delete');
     Route::get('attendance/{id}/user', 'AttendanceController@user')->name('attendance.user');
     /*
      * ---------------------------------------------------------

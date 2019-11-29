@@ -54,7 +54,7 @@ class AdminAttendanceService
     {
         $attribute['start_time'] = $this->convertTime($strTime['start_time']);
         $attribute['end_time'] = $this->convertTime($strTime['end_time']);
-        return $this->attendance->find($id)->update($attribute);
+        $this->attendance->find($id)->update($attribute);
     }
     
     /**
@@ -98,5 +98,10 @@ class AdminAttendanceService
         ];
     }
     
-    
+    public function attendanceUpdateIsDelete($id)
+    {
+         $this->attendance->find($id)->update([
+            'is_absent' => true
+        ]);
+    }
 }
