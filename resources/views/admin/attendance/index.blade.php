@@ -30,6 +30,7 @@
           </tr>
           </thead>
           <tbody>
+          
           @foreach($userInfos as $userInfo)
             @if (!empty($userInfo->attendance) && !$userInfo->attendance->is_absent)
               <tr class="row">
@@ -68,8 +69,11 @@
               <tr class="row">
                 <td class="col-xs-1"><img src="{{ $userInfo->avatar }}" class="avatar-img"></td>
                 <td class="col-xs-7">{{ $userInfo->name }}</td>
-                <td class="col-xs-4"><a href="{{ route('admin.attendance.user', $userInfo->id) }}" class="btn btn-sucssess"><i class="fa fa-file-text-o"
-                                                                            aria-hidden="true"></i></a></td>
+                <td class="col-xs-4">
+                  <a href="{{ route('admin.attendance.user', $userInfo->id) }}" class="btn btn-sucssess">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  </a>
+                </td>
               </tr>
             @endif
           @endforeach
@@ -92,8 +96,11 @@
               <tr class="row">
                 <td class="col-xs-1"><img src="{{ $userInfo->avatar }}" class="avatar-img"></td>
                 <td class="col-xs-7">{{ $userInfo->name }}</td>
-                <td class="col-xs-4"><a href="{{ route('admin.attendance.user', $userInfo->id) }}" class="btn btn-sucssess"><i class="fa fa-file-text-o"
-                                                                            aria-hidden="true"></i></a></td>
+                <td class="col-xs-4">
+                  <a href="{{ route('admin.attendance.user', $userInfo->id) }}" class="btn btn-sucssess">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  </a>
+                </td>
               </tr>
             @endif
           @endforeach
