@@ -60,6 +60,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], fu
     
     Route::get('attendance', 'AttendanceController@index')->name('attendance');
     Route::get('attendance/{id}/user/create', 'AttendanceController@create')->name('attendance.create');
+    Route::post('attendance/{id}/user/store', 'AttendanceController@store')->name('attendance.store');
     Route::get('attendance/{id}/user/edit/{date}', 'AttendanceController@edit')->name('attendance.edit');
     Route::put('attendance/{id}/user', 'AttendanceController@update')->name('attendance.update');
     Route::put('attendance/{id}/user/delete', 'AttendanceController@delete')->name('attendance.delete');
