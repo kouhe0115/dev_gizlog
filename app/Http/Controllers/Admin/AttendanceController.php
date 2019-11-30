@@ -62,21 +62,31 @@ class AttendanceController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create($userId)
     {
-        return view('admin.attendance.create');
+        $userInfos = $this->user->find($userId);
+        return view('admin.attendance.create', compact('userInfos'));
+    }
+    
+    public function store(AdminAttendanceTimeRequest $request, $userId)
+    {
+        $inputs = $request->AttendanceTimeRequest();
+        $inputs['user_id'] = $userId;
+        $this->AdminAttendanceService->registerAttendance($inputs);
+        return redirect()->route('admin.attendance');
     }
     
     /**
      * 個別編集画面の表示
      *
      * @param $userId
+     * @param $date
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($userId)
+    public function edit($userId, $date)
     {
-        $userInfos = $this->user->find($userId);
-        return view('admin.attendance.edit', compact('userInfos'));
+        $attendance = $this->AdminAttendanceService->fetchAttendance($userId, $date);
+        return view('admin.attendance.edit', compact('attendance'));
     }
     
     /**

@@ -6,9 +6,9 @@ use App\Models\Attendance;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
-use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 
 const START_TIME = '10:00';
+
 /**
  * 勤怠に関するメソッド
  *
@@ -27,6 +27,11 @@ class AdminAttendanceService
      */
     private $user;
     
+    /**
+     * AdminAttendanceService constructor.
+     * @param Attendance $attendance
+     * @param User $user
+     */
     public function __construct(Attendance $attendance, User $user)
     {
         $this->user = $user;
@@ -43,8 +48,33 @@ class AdminAttendanceService
         return $this->user->with('attendance')->get();
     }
     
+    public function fetchAttendance($userId, $date)
+    {
+        return $this->attendance->where('user_id', $userId)
+            ->where('date', $date)
+            ->first();
+    }
+    
     /**
-     * 出勤退勤時間の登録
+     * 個別勤怠の登録
+     *
+     * @param $attributes
+     * @return int
+     */
+    public function registerAttendance($attributes)
+    {
+        if ($this->attendance->where('user_id', $attributes['user_id'])->where('date', $attributes['date'])->first()) {
+            return 0;
+        }
+        
+        $attributes['start_time'] = $this->convertTime($attributes['start_time']);
+        $attributes['end_time'] = $this->convertTime($attributes['end_time']);
+        $this->attendance->create($attributes);
+    }
+    
+    
+    /**
+     * 出勤退勤時間の更新
      *
      * @param $id
      * @param $strTime
@@ -60,7 +90,7 @@ class AdminAttendanceService
     /**
      * 文字列を日付にキャスト
      *
-     * @param $strTime
+     * @param $strTime 文字列の時間
      * @return Carbon
      */
     public function convertTime($strTime)
@@ -70,7 +100,6 @@ class AdminAttendanceService
         }
         return $strTime;
     }
-    
     
     /**
      * 遅刻と欠席のカウント
@@ -98,10 +127,15 @@ class AdminAttendanceService
         ];
     }
     
+    /**
+     * 個別勤怠の欠席の登録
+     *
+     * @param $id
+     */
     public function attendanceUpdateIsDelete($id)
     {
-         $this->attendance->find($id)->update([
-            'is_absent' => true
+        $this->attendance->find($id)->update([
+            'is_absent' => true,
         ]);
     }
 }

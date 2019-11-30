@@ -24,13 +24,14 @@ class AdminAttendanceTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_time'      => 'required',
-            'end_time'        => 'required',
+            'start_time'  => 'required',
+            'end_time'    => 'required',
+            'date'        => 'sometimes|required|date'
         ];
     }
     
     public function AttendanceTimeRequest()
     {
-        return $this->only('start_time', 'end_time');
+        return $this->only('start_time', 'end_time', 'date');
     }
 }
