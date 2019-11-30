@@ -5,53 +5,53 @@
   <div class="main-wrap">
     <div class="user-info-box clearfix">
       <div class="left-info">
-        <img src="{{ $userInfos->avatar }}">
-        <p class="user-name">{{ $userInfos->name }}</p>
-        <i class="fa fa-envelope-o" aria-hidden="true"><p class="user-email">{{ $userInfos->email }}</p></i>
+        <img src="{{ $attendance->user->avatar }}">
+        <p class="user-name">{{ $attendance->user->name }}</p>
+        <i class="fa fa-envelope-o" aria-hidden="true"><p class="user-email">{{ $attendance->user->email }}</p></i>
       </div>
       <div class="right-info">
         <div class="my-info day-info">
           <p>編集日</p>
           <div class="study-hour-box clearfix">
             <div class="userinfo-box"><i class="fa fa-calendar fa-2x" aria-hidden="true"></i></div>
-            <p class="study-hour study-date"><span>{{ $userInfos->attendance->date->format('m/d') }}</span></p>
+            <p class="study-hour study-date"><span>{{ $attendance->date->format('m/d') }}</span></p>
           </div>
         </div>
         <div class="my-info">
           <p>研修開始日</p>
           <div class="study-hour-box clearfix">
-            <p class="study-hour study-date"><span>{{ $userInfos->created_at->format('Y/m/d') }}</span></p>
+            <p class="study-hour study-date"><span>{{ $attendance->user->created_at->format('Y/m/d') }}</span></p>
           </div>
         </div>
       </div>
     </div>
-    @if ($userInfos->attendance->request_content)
+    @if ($attendance->request_content)
       <div class="request-box">
         <div class="request-title">
-          <img src="{{ $userInfos->avatar }}"
+          <img src="{{ $attendance->user->avatar }}"
                class="avatar-img">
           <p>修正申請内容</p>
         </div>
         <div class="request-content">
-          {{ $userInfos->attendance->request_content }}
+          {{ $attendance->request_content }}
         </div>
         @endif
       </div>
       <div class="attendance-modify-box">
-        {!! Form::open(['route' => ['admin.attendance.update', $userInfos->attendance->id], 'method' => 'PUT']) !!}
+        {!! Form::open(['route' => ['admin.attendance.update', $attendance->id], 'method' => 'PUT']) !!}
           <div class="form-group">
-            {!! Form::input('time', 'start_time', $userInfos->attendance->start_time->format('H:i'), ['class' => 'form-control']) !!}
+            {!! Form::input('time', 'start_time', $attendance->start_time->format('H:i'), ['class' => 'form-control']) !!}
             <span class="help-block"></span>
           </div>
           <p class="to-time">to</p>
           <div class="form-group">
-            {!! Form::input('time', 'end_time', $userInfos->attendance->end_time->format('H:i'), ['class' => 'form-control']) !!}
+            {!! Form::input('time', 'end_time', $attendance->end_time->format('H:i'), ['class' => 'form-control']) !!}
             <span class="help-block"></span>
           </div>
           {!! Form::button('修正',  ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
         {!! Form::close() !!}
         
-        {!! Form::open(['route' => ['admin.attendance.delete', $userInfos->attendance->id], 'method' => 'PUT']) !!}
+        {!! Form::open(['route' => ['admin.attendance.delete', $attendance->id], 'method' => 'PUT']) !!}
           {!! Form::button('欠席', ['type' => 'submit', 'class' => "btn btn-danger"]) !!}
         {!! Form::close() !!}
       </div>

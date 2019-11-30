@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="btn-wrapper">
-      <a href="" class="btn btn-icon">
+      <a href="{{ route('admin.attendance.create', $userInfos->id) }}" class="btn btn-icon">
         <i class="fa fa-plus" aria-hidden="true"></i>
       </a>
     </div>
@@ -61,7 +61,7 @@
             <td class="col-xs-2">{{ $attendance->end_time ? $attendance->end_time->format('H:i') : '-' }}</td>
             <td class="col-xs-2">{{ $attendance->request_content ? 'あり' : '-' }}</td>
             <td class="col-xs-2">
-              <a href="{{ route('admin.attendance.edit', [$userInfos->id, $attendance->id]) }}"
+              <a href="{{ route('admin.attendance.edit', [$userInfos->id, $attendance->date->format('Y-m-d')]) }}"
                  class="btn btn-sucssess btn-small">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
