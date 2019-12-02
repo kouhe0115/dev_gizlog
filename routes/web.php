@@ -63,11 +63,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], fu
     Route::post('attendance/{id}/user/store', 'AttendanceController@store')->name('attendance.store');
     Route::get('attendance/{id}/user/edit/{date}', 'AttendanceController@edit')->name('attendance.edit');
     Route::put('attendance/{id}/user', 'AttendanceController@update')->name('attendance.update');
-    Route::put('attendance/{id}/user/delete', 'AttendanceController@delete')->name('attendance.delete');
+    Route::put('attendance/{id}/user/absent', 'AttendanceController@setAbsent')->name('attendance.setAbsent');
     Route::get('attendance/{id}/user', 'AttendanceController@user')->name('attendance.user');
-    /*
-     * ---------------------------------------------------------
-     */
     
     Route::get('report', function () {
         abort(404);

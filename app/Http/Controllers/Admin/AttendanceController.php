@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Service\AdminAttendanceService;
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminAttendanceTimeRequest;
 
@@ -16,22 +15,17 @@ use App\Http\Requests\AdminAttendanceTimeRequest;
 class AttendanceController extends Controller
 {
     /**
-     * @var
-     */
-    private $user;
-    /**
      * @var AdminAttendanceService
      */
     private $AdminAttendanceService;
     
     /**
      * AttendanceController constructor.
-     * @param User $user
      * @param AdminAttendanceService $AdminAttendanceService
      */
-    public function __construct(User $user, AdminAttendanceService $AdminAttendanceService)
+    public function __construct(AdminAttendanceService $AdminAttendanceService)
     {
-        $this->user = $user;
+        $this->middleware('auth:admin');
         $this->AdminAttendanceService = $AdminAttendanceService;
     }
     
@@ -42,7 +36,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $userInfos = $this->AdminAttendanceService->fetchUserInfo();
+        $userInfos = $this->AdminAttendanceService->fetchAllUsersInfo();
         return view('admin.attendance.index', compact('userInfos'));
     }
     
@@ -54,22 +48,22 @@ class AttendanceController extends Controller
      */
     public function user($userId)
     {
-        $userInfos = $this->user->find($userId);
-        $lateCount = $this->AdminAttendanceService->countLate($userInfos);
-        return view('admin.attendance.user', compact('userInfos', 'lateCount'));
+        $userInfos = $this->AdminAttendanceService->fetchUserInfo($userId);
+        $lateAbsentCount = $this->AdminAttendanceService->countAbsentLate($userInfos);
+        return view('admin.attendance.user', compact('userInfos', 'lateAbsentCount'));
     }
     
     /**
      * 個別勤怠作成ページの表示
      *
+     * @param $userId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create($userId)
     {
-        $userInfos = $this->user->find($userId);
+        $userInfos = $this->AdminAttendanceService->fetchUserInfo($userId);
         return view('admin.attendance.create', compact('userInfos'));
     }
-    
     
     /**
      * 個別勤怠の新規作成処理
@@ -81,8 +75,7 @@ class AttendanceController extends Controller
     public function store(AdminAttendanceTimeRequest $request, $userId)
     {
         $inputs = $request->AttendanceTimeRequest();
-        $inputs['user_id'] = $userId;
-        $this->AdminAttendanceService->registerAttendance($inputs);
+        $this->AdminAttendanceService->registerAttendance($inputs, $userId);
         return redirect()->route('admin.attendance');
     }
     
@@ -95,7 +88,7 @@ class AttendanceController extends Controller
      */
     public function edit($userId, $date)
     {
-        $attendance = $this->AdminAttendanceService->fetchAttendance($userId, $date);
+        $attendance = $this->AdminAttendanceService->fetchUserAttendanceByDate($userId, $date);
         return view('admin.attendance.edit', compact('attendance'));
     }
     
@@ -108,20 +101,20 @@ class AttendanceController extends Controller
      */
     public function update(AdminAttendanceTimeRequest $request, $id)
     {
-        $inputs = $request->AttendanceTimeRequest();
-        $this->AdminAttendanceService->attendanceUpdateByUserId($id, $inputs);
+        $inputs = $request->attendanceTimeRequest();
+        $this->AdminAttendanceService->updateAttendance($id, $inputs);
         return redirect()->route('admin.attendance');
     }
     
     /**
-     * 個別勤怠の論理削除処理
+     * 個別勤怠の欠席処理
      *
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($id)
+    public function setAbsent($id)
     {
-        $this->AdminAttendanceService->attendanceUpdateIsDelete($id);
+        $this->AdminAttendanceService->registerAbsent($id);
         return redirect()->route('admin.attendance');
     }
 }

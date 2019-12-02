@@ -34,7 +34,7 @@
       {!! Form::button('作成', ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
       {!! Form::close() !!}
       
-      {!! Form::open(['route' => ['admin.attendance.delete', $userInfos->id], 'method' => 'PUT']) !!}
+      {!! Form::open(['route' => ['admin.attendance.setAbsent', $userInfos->id], 'method' => 'PUT']) !!}
       {!! Form::button('欠席', ['type' => 'submit', 'class' => "btn btn-danger"]) !!}
       {!! Form::close() !!}
     </div>

@@ -39,16 +39,34 @@ class AdminAttendanceService
     }
     
     /**
+     * 個別ユーザーの取得
+     *
+     * @param $userId
+     * @return mixed
+     */
+    public function fetchUserInfo($userId)
+    {
+        return $this->user->find($userId);
+    }
+    
+    /**
      * ユーザー情報の取得
      *
      * @return User[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function fetchUserInfo()
+    public function fetchAllUsersInfo()
     {
         return $this->user->with('attendance')->get();
     }
     
-    public function fetchAttendance($userId, $date)
+    /**
+     * 個別勤怠の取得
+     *
+     * @param $userId
+     * @param $date
+     * @return mixed
+     */
+    public function fetchUserAttendanceByDate($userId, $date)
     {
         return $this->attendance->where('user_id', $userId)
             ->where('date', $date)
@@ -58,48 +76,63 @@ class AdminAttendanceService
     /**
      * 個別勤怠の登録
      *
-     * @param $attributes
+     * @param $strTime
+     * @param $userId
      * @return int
      */
-    public function registerAttendance($attributes)
+    public function registerAttendance($strTime, $userId)
     {
-        if ($this->attendance->where('user_id', $attributes['user_id'])->where('date', $attributes['date'])->first()) {
+        if ($this->attendance->where('user_id', $userId)->where('date', $strTime['date'])->first()) {
             return 0;
         }
         
-        $attributes['start_time'] = $this->convertTime($attributes['start_time']);
-        $attributes['end_time'] = $this->convertTime($attributes['end_time']);
+        $attributes['start_time'] = $this->convertTime($strTime['date'] . ' ' . $strTime['start_time']);
+        $attributes['end_time'] = $this->convertTime($strTime['date'] . ' ' . $strTime['end_time']);
         $this->attendance->create($attributes);
     }
     
     
     /**
-     * 出勤退勤時間の更新
+     * 個別勤怠時間の更新
      *
      * @param $id
-     * @param $attribute
+     * @param $strTime
      */
-    public function attendanceUpdateByUserId($id, $attribute)
+    public function updateAttendance($id, $strTime)
     {
-        $date = $attribute['date'];
-        $attribute['start_time'] = $this->convertTime($date. ' ' .$attribute['start_time']);
-        $attribute['end_time'] = $this->convertTime($date. ' ' .$attribute['end_time']);
-        $attribute['is_request'] = false;
-        $this->attendance->find($id)->update($attribute);
+        $attributes['start_time'] = $this->convertTime($strTime['date'] . ' ' . $strTime['start_time']);
+        $attributes['end_time'] = $this->convertTime($strTime['date'] . ' ' . $strTime['end_time']);
+        $this->attendance->find($id)->update([
+            'start_time' => $attributes['start_time'],
+            'end_time' => $attributes['end_time'],
+            'is_request' => false,
+        ], $attributes);
     }
     
     /**
-     * 文字列を日付にキャスト
+     * 個別勤怠の欠席の登録
      *
-     * @param $attribute
+     * @param $id
+     */
+    public function registerAbsent($id)
+    {
+        $this->attendance->find($id)->update([
+            'is_absent' => true,
+        ]);
+    }
+    
+    /**
+     * 文字列を日付型にキャスト
+     *
+     * @param $strTime
      * @return Carbon
      */
-    public function convertTime($attribute)
+    public function convertTime($strTime)
     {
-        if (!empty($attribute)) {
-            return new Carbon($attribute);
+        if (!empty($strTime)) {
+            return new Carbon($strTime);
         }
-        return $attribute;
+        return $strTime;
     }
     
     /**
@@ -108,7 +141,7 @@ class AdminAttendanceService
      * @param $userInfos
      * @return array
      */
-    public function countLate($userInfos)
+    public function countAbsentLate($userInfos)
     {
         $absentCount = 0;
         $lateCount = 0;
@@ -126,17 +159,5 @@ class AdminAttendanceService
             'lateCount' => $lateCount,
             'absentCount' => $absentCount
         ];
-    }
-    
-    /**
-     * 個別勤怠の欠席の登録
-     *
-     * @param $id
-     */
-    public function attendanceUpdateIsDelete($id)
-    {
-        $this->attendance->find($id)->update([
-            'is_absent' => true,
-        ]);
     }
 }

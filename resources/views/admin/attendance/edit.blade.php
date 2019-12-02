@@ -35,27 +35,27 @@
         <div class="request-content">
           {{ $attendance->request_content }}
         </div>
-        @endif
       </div>
-      <div class="attendance-modify-box">
-        {!! Form::open(['route' => ['admin.attendance.update', $attendance->id], 'method' => 'PUT']) !!}
-          <div class="form-group">
-            {!! Form::input('time', 'start_time', $attendance->start_time ? $attendance->start_time->format('H:i') : '', ['class' => 'form-control']) !!}
-            <span class="help-block"></span>
-          </div>
-          <p class="to-time">to</p>
-          <div class="form-group">
-            {!! Form::input('time', 'end_time', $attendance->end_time ? $attendance->end_time->format('H:i') : '', ['class' => 'form-control']) !!}
-            <span class="help-block"></span>
-          </div>
-        {!! Form::hidden('date', $attendance->date->format('Y-m-d')) !!}
-          {!! Form::button('修正',  ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
-        {!! Form::close() !!}
-        
-        {!! Form::open(['route' => ['admin.attendance.delete', $attendance->id], 'method' => 'PUT']) !!}
-          {!! Form::button('欠席', ['type' => 'submit', 'class' => "btn btn-danger"]) !!}
-        {!! Form::close() !!}
+    @endif
+    <div class="attendance-modify-box">
+      {!! Form::open(['route' => ['admin.attendance.update', $attendance->id], 'method' => 'PUT']) !!}
+      <div class="form-group">
+        {!! Form::input('time', 'start_time', $attendance->start_time ? $attendance->start_time->format('H:i') : '', ['class' => 'form-control']) !!}
+        <span class="help-block"></span>
       </div>
+      <p class="to-time">to</p>
+      <div class="form-group">
+        {!! Form::input('time', 'end_time', $attendance->end_time ? $attendance->end_time->format('H:i') : '', ['class' => 'form-control']) !!}
+        <span class="help-block"></span>
+      </div>
+      {!! Form::hidden('date', $attendance->date->format('Y-m-d')) !!}
+      {!! Form::button('修正',  ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
+      {!! Form::close() !!}
+      
+      {!! Form::open(['route' => ['admin.attendance.setAbsent', $attendance->id], 'method' => 'PUT']) !!}
+      {!! Form::button('欠席', ['type' => 'submit', 'class' => "btn btn-danger"]) !!}
+      {!! Form::close() !!}
+    </div>
   </div>
 
 @endsection
