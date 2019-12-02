@@ -80,14 +80,15 @@ class AdminAttendanceService
      * @param $userId
      * @return int
      */
-    public function registerAttendance($strTime, $userId)
+    public function registerAttendance($attributes, $userId)
     {
-        if ($this->attendance->where('user_id', $userId)->where('date', $strTime['date'])->first()) {
+        if ($this->attendance->where('user_id', $userId)->where('date', $attributes['date'])->first()) {
             return 0;
         }
         
-        $attributes['start_time'] = $this->convertTime($strTime['date'] . ' ' . $strTime['start_time']);
-        $attributes['end_time'] = $this->convertTime($strTime['date'] . ' ' . $strTime['end_time']);
+        $attributes['user_id'] = $userId;
+        $attributes['start_time'] = $this->convertTime($attributes['date'] . ' ' . $attributes['start_time']);
+        $attributes['end_time'] = $this->convertTime($attributes['date'] . ' ' . $attributes['end_time']);
         $this->attendance->create($attributes);
     }
     
@@ -106,7 +107,7 @@ class AdminAttendanceService
             'start_time' => $attributes['start_time'],
             'end_time' => $attributes['end_time'],
             'is_request' => false,
-        ], $attributes);
+        ]);
     }
     
     /**
