@@ -21,7 +21,7 @@ class CreateAttendancesTable extends Migration
             $table->string('request_content', 500)->nullable();
             $table->integer('is_absent')->default(0);
             $table->string('absent_reason', 500)->nullable();
-            $table->dateTime('date');
+            $table->date('date');
             $table->softDeletes();
         });
     }
