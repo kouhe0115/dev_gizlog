@@ -77,28 +77,29 @@ class AdminAttendanceService
      * 出勤退勤時間の更新
      *
      * @param $id
-     * @param $strTime
-     * @return mixed
+     * @param $attribute
      */
-    public function attendanceUpdateByUserId($id, $strTime)
+    public function attendanceUpdateByUserId($id, $attribute)
     {
-        $attribute['start_time'] = $this->convertTime($strTime['start_time']);
-        $attribute['end_time'] = $this->convertTime($strTime['end_time']);
+        $date = $attribute['date'];
+        $attribute['start_time'] = $this->convertTime($date. ' ' .$attribute['start_time']);
+        $attribute['end_time'] = $this->convertTime($date. ' ' .$attribute['end_time']);
+        $attribute['is_request'] = false;
         $this->attendance->find($id)->update($attribute);
     }
     
     /**
      * 文字列を日付にキャスト
      *
-     * @param $strTime 文字列の時間
+     * @param $attribute
      * @return Carbon
      */
-    public function convertTime($strTime)
+    public function convertTime($attribute)
     {
-        if (!empty($strTime)) {
-            return new Carbon($strTime);
+        if (!empty($attribute)) {
+            return new Carbon($attribute);
         }
-        return $strTime;
+        return $attribute;
     }
     
     /**

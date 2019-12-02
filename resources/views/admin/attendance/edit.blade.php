@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    @if ($attendance->request_content)
+    @if ($attendance->is_request)
       <div class="request-box">
         <div class="request-title">
           <img src="{{ $attendance->user->avatar }}"
@@ -40,14 +40,15 @@
       <div class="attendance-modify-box">
         {!! Form::open(['route' => ['admin.attendance.update', $attendance->id], 'method' => 'PUT']) !!}
           <div class="form-group">
-            {!! Form::input('time', 'start_time', $attendance->start_time->format('H:i'), ['class' => 'form-control']) !!}
+            {!! Form::input('time', 'start_time', $attendance->start_time ? $attendance->start_time->format('H:i') : '', ['class' => 'form-control']) !!}
             <span class="help-block"></span>
           </div>
           <p class="to-time">to</p>
           <div class="form-group">
-            {!! Form::input('time', 'end_time', $attendance->end_time->format('H:i'), ['class' => 'form-control']) !!}
+            {!! Form::input('time', 'end_time', $attendance->end_time ? $attendance->end_time->format('H:i') : '', ['class' => 'form-control']) !!}
             <span class="help-block"></span>
           </div>
+        {!! Form::hidden('date', $attendance->date->format('Y-m-d')) !!}
           {!! Form::button('修正',  ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
         {!! Form::close() !!}
         

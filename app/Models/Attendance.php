@@ -15,6 +15,7 @@ class Attendance extends Model
      */
     protected $casts = [
         'is_absent' => 'boolean',
+        'is_request' => 'boolean',
     ];
 
     protected $fillable = [
@@ -25,6 +26,7 @@ class Attendance extends Model
         'is_absent',
         'absent_reason',
         'date',
+        'is_request',
     ];
     
     protected $dates = [

@@ -60,6 +60,8 @@ class AttendanceController extends Controller
     }
     
     /**
+     * 個別勤怠作成ページの表示
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create($userId)
@@ -68,6 +70,14 @@ class AttendanceController extends Controller
         return view('admin.attendance.create', compact('userInfos'));
     }
     
+    
+    /**
+     * 個別勤怠の新規作成処理
+     *
+     * @param AdminAttendanceTimeRequest $request
+     * @param $userId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(AdminAttendanceTimeRequest $request, $userId)
     {
         $inputs = $request->AttendanceTimeRequest();
@@ -98,8 +108,8 @@ class AttendanceController extends Controller
      */
     public function update(AdminAttendanceTimeRequest $request, $id)
     {
-        $strTime = $request->AttendanceTimeRequest();
-        $this->AdminAttendanceService->attendanceUpdateByUserId($id, $strTime);
+        $inputs = $request->AttendanceTimeRequest();
+        $this->AdminAttendanceService->attendanceUpdateByUserId($id, $inputs);
         return redirect()->route('admin.attendance');
     }
     

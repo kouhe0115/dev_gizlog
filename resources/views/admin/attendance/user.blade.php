@@ -59,7 +59,7 @@
                 研修中 @elseif(!$attendance->is_absent) 出社 @endif</td>
             <td class="col-xs-2">{{ $attendance->start_time ? $attendance->start_time->format('H:i') : '-' }}</td>
             <td class="col-xs-2">{{ $attendance->end_time ? $attendance->end_time->format('H:i') : '-' }}</td>
-            <td class="col-xs-2">{{ $attendance->request_content ? 'あり' : '-' }}</td>
+            <td class="col-xs-2"><span class="{{ $attendance->is_request ? 'attention' : '' }}">{{ $attendance->is_request ? 'あり' : '-' }}</span></td>
             <td class="col-xs-2">
               <a href="{{ route('admin.attendance.edit', [$userInfos->id, $attendance->date->format('Y-m-d')]) }}"
                  class="btn btn-sucssess btn-small">

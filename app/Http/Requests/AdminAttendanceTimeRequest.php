@@ -26,7 +26,7 @@ class AdminAttendanceTimeRequest extends FormRequest
         return [
             'start_time'  => 'required',
             'end_time'    => 'required',
-            'date'        => 'sometimes|required|date'
+            'date'        => 'required|date'
         ];
     }
     

@@ -109,6 +109,7 @@ class AttendanceController extends Controller
     {
         $inputs = $request->ModifyRequest();
         $inputs['user_id'] = Auth::id();
+        $inputs['is_request'] = true;
         $this->attendanceService->registerRequest($inputs);
         return redirect()->route('attendance');
     }
