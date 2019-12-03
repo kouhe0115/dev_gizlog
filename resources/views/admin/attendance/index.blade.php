@@ -32,13 +32,13 @@
           <tbody>
           
           @foreach($userInfos as $userInfo)
-            @if (!empty($userInfo->attendance) && !$userInfo->attendance->is_absent)
+            @if (!empty($userInfo->todayAttendance) && !$userInfo->todayAttendance->is_absent)
               <tr class="row">
                 <td class="col-xs-1"><img src="{{ $userInfo->avatar }}" class="avatar-img"></td>
                 <td class="col-xs-2">{{ $userInfo->name }}</td>
                 <td class="col-xs-2">{{ $userInfo->created_at->format('Y/m/d') }}</td>
-                <td class="col-xs-3">{{ $userInfo->attendance->start_time->format('H:i') }}</td>
-                <td class="col-xs-2">{{ $userInfo->attendance->request_content ? 'あり' : '-' }}</td>
+                <td class="col-xs-3">{{ $userInfo->todayAttendance->start_time->format('H:i') }}</td>
+                <td class="col-xs-2">{{ $userInfo->todayAttendance->request_content ? 'あり' : '-' }}</td>
                 <td class="col-xs-2">
                   <a href="{{ route('admin.attendance.user', $userInfo->id) }}" class="btn btn-sucssess">
                     <i class="fa fa-file-text-o" aria-hidden="true"></i>
@@ -65,7 +65,7 @@
           </thead>
           <tbody>
           @foreach($userInfos as $userInfo)
-            @if (empty($userInfo->attendance))
+            @if (empty($userInfo->todayAttendance))
               <tr class="row">
                 <td class="col-xs-1"><img src="{{ $userInfo->avatar }}" class="avatar-img"></td>
                 <td class="col-xs-7">{{ $userInfo->name }}</td>
@@ -92,7 +92,7 @@
           </thead>
           <tbody>
           @foreach($userInfos as $userInfo)
-            @if (!empty($userInfo->attendance) && $userInfo->attendance->is_absent)
+            @if (!empty($userInfo->todayAttendance) && $userInfo->todayAttendance->is_absent)
               <tr class="row">
                 <td class="col-xs-1"><img src="{{ $userInfo->avatar }}" class="avatar-img"></td>
                 <td class="col-xs-7">{{ $userInfo->name }}</td>
