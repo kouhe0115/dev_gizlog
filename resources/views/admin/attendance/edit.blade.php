@@ -39,14 +39,14 @@
     @endif
     <div class="attendance-modify-box">
       {!! Form::open(['route' => ['admin.attendance.update', $attendance->id], 'method' => 'PUT']) !!}
-      <div class="form-group">
+      <div class="form-group {{ $errors->has('start_time') ? 'has-error' : '' }}">
         {!! Form::input('time', 'start_time', $attendance->start_time ? $attendance->start_time->format('H:i') : '', ['class' => 'form-control']) !!}
-        <span class="help-block"></span>
+        <span class="help-block">{{ $errors->first('start_time') }}</span>
       </div>
       <p class="to-time">to</p>
-      <div class="form-group">
+      <div class="form-group {{ $errors->has('end_time') ? 'has-error' : '' }}">
         {!! Form::input('time', 'end_time', $attendance->end_time ? $attendance->end_time->format('H:i') : '', ['class' => 'form-control']) !!}
-        <span class="help-block"></span>
+        <span class="help-block">{{ $errors->first('end_time') }}</span>
       </div>
       {!! Form::hidden('date', $attendance->date->format('Y-m-d')) !!}
       {!! Form::button('修正',  ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
