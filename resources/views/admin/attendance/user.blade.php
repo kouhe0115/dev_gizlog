@@ -51,7 +51,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($userInfos->allattendance as $attendance)
+        @foreach($userInfos->attendances->sortByDesc('date') as $attendance)
           <tr class="row {{ $attendance->is_absent ? 'absent-row' : '' }}">
             <td class="col-xs-1">{{ $attendance->date ? $attendance->date->format('m/d') : '-' }}</td>
             <td class="col-xs-1">{{ $attendance->date ? $attendance->date->format('D') : '-' }}</td>
