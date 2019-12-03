@@ -52,7 +52,7 @@
       {!! Form::button('修正',  ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
       {!! Form::close() !!}
       
-      {!! Form::open(['route' => ['admin.attendance.setAbsent', $attendance->id], 'method' => 'PUT']) !!}
+      {!! Form::open(['route' => ['admin.attendance.setAbsent', $attendance->user->id], 'method' => 'PUT']) !!}
       {!! Form::button('欠席', ['type' => 'submit', 'class' => "btn btn-danger"]) !!}
       {!! Form::close() !!}
     </div>
