@@ -4,10 +4,6 @@ namespace App\Service;
 
 use App\Models\Attendance;
 use Carbon\Carbon;
-use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
-
-const MINUTES_TO_HOURS = 60;
-const DAILY_FORMAT = 'Y-m-d';
 
 /**
  * 勤怠に関するメソッド
@@ -17,6 +13,11 @@ const DAILY_FORMAT = 'Y-m-d';
  */
 class AttendanceService
 {
+    
+    /**
+     * 分を時間に変換
+     */
+    const MINUTES_TO_HOURS = 60;
     /**
      * コンストラクター
      *
@@ -43,7 +44,7 @@ class AttendanceService
      */
     public function getTodayAttendance($userId)
     {
-        $d = Carbon::now()->format(DAILY_FORMAT);
+        $d = Carbon::now()->format(config('const.DAILY_FORMAT'));
         return $this->attendance->where('date', $d)->where('user_id', $userId)->first();
     }
     
@@ -93,7 +94,7 @@ class AttendanceService
      */
     public function registerStartTime($attributes)
     {
-        $attributes['date'] = Carbon::now()->format(DAILY_FORMAT);
+        $attributes['date'] = Carbon::now()->format(config('const.DAILY_FORMAT'));
         $this->attendance->create($attributes);
     }
     
@@ -117,7 +118,7 @@ class AttendanceService
     {
         $this->attendance->updateOrCreate([
                 'user_id' => $attributes['user_id'],
-                'date' => Carbon::now()->format(DAILY_FORMAT)
+                'date' => Carbon::now()->format(config('const.DAILY_FORMAT'))
             ], $attributes
         );
     }
@@ -150,7 +151,7 @@ class AttendanceService
         foreach ($attendances as $attendance) {
             $totalLearningTime += $attendance->calcLearningTime();
         };
-        return $totalLearningTime = round($totalLearningTime / MINUTES_TO_HOURS);
+        return $totalLearningTime = round($totalLearningTime / self::MINUTES_TO_HOURS);
     }
     
     /**
