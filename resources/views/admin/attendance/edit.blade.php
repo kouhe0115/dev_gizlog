@@ -53,6 +53,7 @@
       {!! Form::close() !!}
       
       {!! Form::open(['route' => ['admin.attendance.setAbsent', $attendance->user->id], 'method' => 'PUT']) !!}
+      {!! Form::hidden('date', $attendance->date->format('Y-m-d'), ['class' => 'form-control']) !!}
       {!! Form::button('欠席', ['type' => 'submit', 'class' => "btn btn-danger"]) !!}
       {!! Form::close() !!}
     </div>
