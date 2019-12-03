@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
+    const START_TIME = '10:00';
+    
     public $timestamps = false;
     
     /**
@@ -57,5 +59,29 @@ class Attendance extends Model
         }
          //  計算
         return $this->start_time->diffInMinutes($this->end_time);
+    }
+    
+    /**
+     * 遅刻の判定
+     *
+     * @return bool
+     */
+    public function isLate()
+    {
+        if (is_null($this->start_time)) {
+            return false;
+        }
+        
+        return $this->start_time->format('H:i') > self::START_TIME;
+    }
+    
+    /**
+     * 欠席の判定
+     *
+     * @return mixed
+     */
+    public function isAbsent()
+    {
+        return $this->is_absent;
     }
 }
