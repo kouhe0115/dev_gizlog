@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Service\AdminAttendanceService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminAttendanceTimeRequest;
+use Illuminate\Http\Request;
 
 /**
  * 勤怠管理者のメソッド
@@ -74,7 +75,7 @@ class AttendanceController extends Controller
      */
     public function store(AdminAttendanceTimeRequest $request, $userId)
     {
-        $inputs = $request->AttendanceTimeRequest();
+        $inputs = $request->attendanceTimeRequest();
         $this->AdminAttendanceService->registerAttendance($inputs, $userId);
         return redirect()->route('admin.attendance');
     }
@@ -112,9 +113,12 @@ class AttendanceController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setAbsent($id)
+    public function setAbsent(Request $request ,$id)
     {
-        $this->AdminAttendanceService->registerAbsent($id);
+        $inputs = $request->only('date');
+        $inputs['user_id'] = $id;
+        $inputs['is_absent'] = true;
+        $this->AdminAttendanceService->registerAbsent($inputs);
         return redirect()->route('admin.attendance');
     }
 }

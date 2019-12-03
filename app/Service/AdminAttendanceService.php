@@ -7,7 +7,6 @@ use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 
-const START_TIME = '10:00';
 
 /**
  * 勤怠に関するメソッド
@@ -56,7 +55,8 @@ class AdminAttendanceService
      */
     public function fetchAllUsersInfo()
     {
-        return $this->user->with('attendance')->get();
+//        return $this->user->with('attendance')->get();
+        return $this->user->with('todayAttendance')->get();
     }
     
     /**
@@ -76,16 +76,12 @@ class AdminAttendanceService
     /**
      * 個別勤怠の登録
      *
-     * @param $strTime
+     * @param $attributes
      * @param $userId
      * @return int
      */
     public function registerAttendance($attributes, $userId)
     {
-        if ($this->attendance->where('user_id', $userId)->where('date', $attributes['date'])->first()) {
-            return 0;
-        }
-        
         $attributes['user_id'] = $userId;
         $attributes['start_time'] = $this->convertTime($attributes['date'] . ' ' . $attributes['start_time']);
         $attributes['end_time'] = $this->convertTime($attributes['date'] . ' ' . $attributes['end_time']);
@@ -103,6 +99,7 @@ class AdminAttendanceService
     {
         $attributes['start_time'] = $this->convertTime($strTime['date'] . ' ' . $strTime['start_time']);
         $attributes['end_time'] = $this->convertTime($strTime['date'] . ' ' . $strTime['end_time']);
+        
         $this->attendance->find($id)->update([
             'start_time' => $attributes['start_time'],
             'end_time' => $attributes['end_time'],
@@ -115,11 +112,12 @@ class AdminAttendanceService
      *
      * @param $id
      */
-    public function registerAbsent($id)
+    public function registerAbsent($attributes)
     {
-        $this->attendance->find($id)->update([
-            'is_absent' => true,
-        ]);
+        $this->attendance->updateOrCreate([
+            'user_id' => $attributes['user_id'],
+            'date' => $attributes['date'],
+        ], $attributes);
     }
     
     /**
@@ -144,18 +142,28 @@ class AdminAttendanceService
      */
     public function countAbsentLate($userInfos)
     {
-        $absentCount = 0;
-        $lateCount = 0;
+        $attendances = $userInfos->attendances;
         
-        foreach ($userInfos->allattendance as $attendance) {
-            if (!empty($attendance) && $attendance->start_time->format('H:i') > START_TIME) {
+        if ($attendances->isEmpty()) {
+            return [
+                'lateCount' => 0,
+                'absentCount' => 0
+            ];
+        }
+        
+        $lateCount = 0;
+        $absentCount = 0;
+        
+        foreach ($attendances as $attendance) {
+            if ($attendance->isLate()) {
                 $lateCount++;
             }
             
-            if (!empty($attendance) && $attendance->is_absent) {
+            if ($attendance->isAbsent()) {
                 $absentCount++;
             }
         }
+        
         return [
             'lateCount' => $lateCount,
             'absentCount' => $absentCount

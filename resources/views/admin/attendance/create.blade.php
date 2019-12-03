@@ -20,26 +20,29 @@
     </div>
     <div class="attendance-modify-box">
       {!! Form::open(['route' => ['admin.attendance.store', $userInfos->id]]) !!}
-      <div class="form-group date-form">
-        <input class="form-control" name="" type="date">
+      <div class="form-group date-form  {{ $errors->has('date') ? 'has-error' : '' }}">
+        <span class="help-block">{{ $errors->first('date') }}</span>
+        {!! Form::input('date', 'date', null, ['class' => 'form-control date-form']) !!}
       </div>
-      <div class="form-group">
+      <div class="form-group {{ $errors->has('start_time') ? 'has-error' : '' }}">
+        <span class="help-block">{{ $errors->first('start_time') }}</span>
         {!! Form::input('time', 'start_time', null, ['class' => 'form-control']) !!}
       </div>
       <p class="to-time">to</p>
-      <div class="form-group">
+      <div class="form-group  {{ $errors->has('end_time') ? 'has-error' : '' }}">
+        <span class="help-block">{{ $errors->first('end_time') }}</span>
         {!! Form::input('time', 'end_time',  null, ['class' => 'form-control']) !!}
       </div>
-      {!! Form::hidden('date', Carbon::now()->format('Y-m-d')) !!}
       {!! Form::button('作成', ['type' => 'submit', 'class' => "btn btn-modify"]) !!}
       {!! Form::close() !!}
       
       {!! Form::open(['route' => ['admin.attendance.setAbsent', $userInfos->id], 'method' => 'PUT']) !!}
+      {!! Form::input('hidden', 'date', null, ['class' => 'form-control', 'id' => 'date-target']) !!}
       {!! Form::button('欠席', ['type' => 'submit', 'class' => "btn btn-danger"]) !!}
       {!! Form::close() !!}
     </div>
   </div>
-
+  
 @endsection
 
 
