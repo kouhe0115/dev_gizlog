@@ -110,7 +110,7 @@ class AdminAttendanceService
     /**
      * 個別勤怠の欠席の登録
      *
-     * @param $id
+     * @param $attributes
      */
     public function registerAbsent($attributes)
     {
