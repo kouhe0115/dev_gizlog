@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,15 +16,6 @@ class AdminAttendanceTimeRequest extends FormRequest
     {
         return true;
     }
-    
-    // Overwrite
-//    public function all($keys = null)
-//    {
-//        $time = parent::all($keys);
-//        $time['s'] = new Carbon($this->input('date'). ''. $this->input('start_time'));
-//        $time['e'] = new Carbon($this->input('date'). ''. $this->input('start_time'));
-//        return $time;
-//    }
     
     /**
      * Get the validation rules that apply to the request.
