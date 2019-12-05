@@ -36,11 +36,7 @@ class User extends Authenticatable
         return $this->hasMany(DailyReport::class, 'user_id');
     }
     
-    /**
-     * user_idで勤怠の取得
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
