@@ -18,6 +18,7 @@ class AttendanceService
      * 分を時間に変換
      */
     const MINUTES_TO_HOURS = 60;
+    
     /**
      * コンストラクター
      *
