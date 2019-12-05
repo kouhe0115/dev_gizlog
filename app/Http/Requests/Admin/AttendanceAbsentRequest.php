@@ -15,7 +15,7 @@ class AttendanceAbsentRequest extends FormRequest
     {
         return true;
     }
-
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,6 +25,18 @@ class AttendanceAbsentRequest extends FormRequest
     {
         return [
             'date' => ['date', 'required'],
+        ];
+    }
+    
+    /**
+     * エラーメッセージの表示
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'required' => '必須！！'
         ];
     }
 }
