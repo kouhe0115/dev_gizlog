@@ -55,7 +55,6 @@ class AdminAttendanceService
      */
     public function fetchAllUsersInfo()
     {
-//        return $this->user->with('attendance')->get();
         return $this->user->with('todayAttendance')->get();
     }
     
