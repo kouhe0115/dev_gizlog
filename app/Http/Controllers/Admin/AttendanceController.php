@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\AttendanceAbsentRequest;
 use App\Service\AdminAttendanceService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminAttendanceTimeRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\AdminAttendanceTimeRequest;
 
 /**
  * 勤怠管理者のメソッド
@@ -110,10 +110,11 @@ class AttendanceController extends Controller
     /**
      * 個別勤怠の欠席処理
      *
+     * @param AttendanceAbsentRequest $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setAbsent(Request $request ,$id)
+    public function setAbsent(AttendanceAbsentRequest $request ,$id)
     {
         $inputs = $request->only('date');
         $inputs['user_id'] = $id;
