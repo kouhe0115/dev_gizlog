@@ -6,6 +6,8 @@ use App\Http\Requests\Admin\AttendanceAbsentRequest;
 use App\Service\AdminAttendanceService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminAttendanceTimeRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 /**
  * 勤怠管理者のメソッド
@@ -37,6 +39,8 @@ class AttendanceController extends Controller
      */
     public function index()
     {
+//        $test = Redis::get('room01');
+//        dd($test);
         $userInfos = $this->AdminAttendanceService->fetchAllUsersInfo();
         return view('admin.attendance.index', compact('userInfos'));
     }
